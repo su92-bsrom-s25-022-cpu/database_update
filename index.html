@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Database Systems &amp; SQL Quiz (300 MCQs) — Created by Muhammad Waleed</title>
+  <style>
+    :root {
+      --bg-color: #f3f5f9;
+      --surface-color: #ffffff;
+      --surface-alt: #f8fafc;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --border-color: #e2e8f0;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --correct-bg: #dcfce7;
+      --correct-border: #16a34a;
+      --correct-text: #14532d;
+      --wrong-bg: #fee2e2;
+      --wrong-border: #dc2626;
+      --wrong-text: #7f1d1d;
+      --shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      --header-bg: rgba(255, 255, 255, 0.92);
+    }
+
+    body.dark-mode {
+      --bg-color: #0b1120;
+      --surface-color: #111827;
+      --surface-alt: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --correct-bg: rgba(22, 163, 74, 0.22);
+      --correct-border: #22c55e;
+      --correct-text: #bbf7d0;
+      --wrong-bg: rgba(220, 38, 38, 0.22);
+      --wrong-border: #ef4444;
+      --wrong-text: #fecaca;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+      --header-bg: rgba(17, 24, 39, 0.92);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      line-height: 1.55;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--header-bg);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .navbar-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand h1 { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); }
+    .brand .author { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+
+    .stats-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+    .stat-pill {
+      background: var(--surface-alt);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .stat-pill.correct { color: #16a34a; border-color: rgba(22, 163, 74, 0.4); }
+    .stat-pill.wrong { color: #dc2626; border-color: rgba(220, 38, 38, 0.4); }
+    body.dark-mode .stat-pill.correct { color: #4ade80; }
+    body.dark-mode .stat-pill.wrong { color: #f87171; }
+
+    .controls { display: flex; align-items: center; gap: 8px; }
+
+    button.btn {
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: var(--surface-color);
+      color: var(--text-primary);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    button.btn:hover { border-color: var(--accent); color: var(--accent); }
+    button.btn-primary { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    button.btn-primary:hover { background: var(--accent-hover); color: #ffffff; }
+
+    .progress-wrap {
+      max-width: 960px;
+      margin: 10px auto 0;
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #10b981);
+      transition: width 0.3s ease;
+    }
+
+    .container { max-width: 960px; margin: 24px auto 60px; padding: 0 16px; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      background: var(--surface-color);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+    }
+
+    .toolbar input, .toolbar select {
+      background: var(--surface-alt);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .toolbar input { flex: 1 1 240px; }
+    .toolbar input:focus, .toolbar select:focus { border-color: var(--accent); }
+
+    .mcq-card {
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .mcq-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .q-badge {
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .q-status { font-size: 0.82rem; font-weight: 700; }
+    .q-status.ok { color: #16a34a; }
+    .q-status.bad { color: #dc2626; }
+    body.dark-mode .q-status.ok { color: #4ade80; }
+    body.dark-mode .q-status.bad { color: #f87171; }
+
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+    }
+
+    .options-list { display: grid; grid-template-columns: 1fr; gap: 9px; }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+      background: var(--surface-alt);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 0.93rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(37, 99, 235, 0.06);
+    }
+
+    .option-btn:disabled { cursor: default; }
+
+    .opt-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--accent);
+    }
+
+    .opt-text { flex: 1; }
+    .opt-icon { font-weight: 700; font-size: 0.95rem; }
+
+    .option-btn.correct-choice {
+      background: var(--correct-bg);
+      border-color: var(--correct-border);
+      color: var(--correct-text);
+      font-weight: 600;
+    }
+
+    .option-btn.correct-choice .opt-key {
+      background: var(--correct-border);
+      color: #fff;
+      border-color: var(--correct-border);
+    }
+
+    .option-btn.wrong-choice {
+      background: var(--wrong-bg);
+      border-color: var(--wrong-border);
+      color: var(--wrong-text);
+      font-weight: 600;
+    }
+
+    .option-btn.wrong-choice .opt-key {
+      background: var(--wrong-border);
+      color: #fff;
+      border-color: var(--wrong-border);
+    }
+
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 11px 15px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <h1>Database Systems &amp; SQL Quiz (300 MCQs)</h1>
+        <div class="author">Created by Muhammad Waleed</div>
+      </div>
+      <div class="stats-bar">
+        <span class="stat-pill" id="statAttempted">Attempted: 0 / 300</span>
+        <span class="stat-pill correct" id="statCorrect">Correct: 0</span>
+        <span class="stat-pill wrong" id="statWrong">Wrong: 0</span>
+        <span class="stat-pill" id="statScore">Score: 0%</span>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn" id="darkModeToggle">🌙 Dark Mode</button>
+        <button type="button" class="btn btn-primary" id="resetQuizBtn">↻ Shuffle &amp; Reset</button>
+      </div>
+    </div>
+    <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+  </nav>
+
+  <main class="container">
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search SQL keyword (e.g., HAVING, NULL, CHECK, JOIN)..." />
+      <select id="filterSelect">
+        <option value="all">All Questions (300)</option>
+        <option value="demo">Demo Questions Only (15)</option>
+        <option value="unanswered">Unanswered Only</option>
+        <option value="correct">Correct Only</option>
+        <option value="wrong">Wrong Only</option>
+      </select>
+    </div>
+    <div id="quizContainer"></div>
+  </main>
+
+  <button type="button" id="scrollTopBtn" title="Back to top">↑ Top</button>
+
+  <script>
+    const sourceMCQs = [
+      { id: 1, demo: true, q: "The Credits column of the Course table contains 3, 4, 3, 2 and 4. What does SELECT SUM(Credits) FROM Course WHERE Credits > 2; return?", options: { A: "16", B: "10", C: "14", D: "4" }, answer: "C" },
+      { id: 2, demo: true, q: "Teacher has these rows (Dept, Salary): (CS, 50000), (CS, 60000), (Math, 40000), (Math, NULL). In the result of SELECT Dept, AVG(Salary) FROM Teacher GROUP BY Dept; what is the average for Math?", options: { A: "40000", B: "20000", C: "NULL", D: "50000" }, answer: "A" },
+      { id: 3, demo: true, q: "Course titles are 'Database Systems', 'Data Mining', 'Big Data' and 'Networks'. How many rows does SELECT Title FROM Course WHERE Title LIKE 'Data%'; return?", options: { A: "1", B: "3", C: "4", D: "2" }, answer: "D" },
+      { id: 4, demo: true, q: "The Fee column of Admission has the values 1000, 1500, 2000 and 2500. How many rows match WHERE Fee BETWEEN 1500 AND 2500?", options: { A: "2", B: "3", C: "4", D: "1" }, answer: "B" },
+      { id: 5, demo: true, q: "Hotel room rates are 8000, 5000, 12000 and 6000. What does SELECT Rate FROM Hotel ORDER BY Rate LIMIT 2; return (MySQL)?", options: { A: "5000 and 6000", B: "12000 and 8000", C: "8000 and 5000", D: "5000 and 12000" }, answer: "A" },
+      { id: 6, demo: true, q: "Which statement is correct about WHERE and HAVING?", options: { A: "WHERE filters groups and HAVING filters rows", B: "Both can only be used without GROUP BY", C: "WHERE filters rows before grouping, and HAVING filters groups after grouping", D: "HAVING must always come before WHERE" }, answer: "C" },
+      { id: 7, demo: true, q: "The Stock column of Item has the values 10, 0 and 5. After running UPDATE Item SET Stock = Stock + 5 WHERE Stock < 6; what does SELECT SUM(Stock) FROM Item; return?", options: { A: "15", B: "20", C: "30", D: "25" }, answer: "D" },
+      { id: 8, demo: true, q: "A Student table has 6 rows with ages 17, 18, 19, 20, 21 and 22. After DELETE FROM Student WHERE Age NOT BETWEEN 18 AND 21; how many rows remain?", options: { A: "2", B: "4", C: "6", D: "3" }, answer: "B" },
+      { id: 9, demo: true, q: "The Phone column of Customer has the values '0300', NULL, '0321' and NULL. What does SELECT COUNT(*) FROM Customer WHERE Phone = NULL; return?", options: { A: "0", B: "2", C: "4", D: "NULL" }, answer: "A" },
+      { id: 10, demo: true, q: "A table is created as Course(CourseID INT PRIMARY KEY, Title VARCHAR(50) NOT NULL, Credits INT CHECK (Credits BETWEEN 1 AND 4)). Which insert fails?", options: { A: "INSERT INTO Course VALUES (1, 'DB', 3);", B: "INSERT INTO Course VALUES (3, 'OS', 1);", C: "INSERT INTO Course VALUES (4, 'ML', 4);", D: "INSERT INTO Course VALUES (2, 'AI', 5);" }, answer: "D" },
+      { id: 11, demo: true, q: "Course.TeacherID is a foreign key that references Teacher.TeacherID. Which table must be created first?", options: { A: "Course", B: "Both tables must be created in the same statement", C: "Teacher", D: "The order does not matter" }, answer: "C" },
+      { id: 12, demo: true, q: "A designer wants the Grade column to accept only A, B, C, D or F. Which column definition is correct?", options: { A: "Grade CHAR(1) DEFAULT ('A','B','C','D','F')", B: "Grade CHAR(1) CHECK (Grade IN ('A','B','C','D','F'))", C: "Grade CHAR(1) UNIQUE ('A','B','C','D','F')", D: "Grade CHAR(1) CHECK (Grade = 'A','B','C','D','F')" }, answer: "B" },
+      { id: 13, demo: true, q: "A Person table has these rows (City, Age): (Lahore, 17), (Karachi, 25), (Lahore, 22), (Multan, 30). How many rows does WHERE City = 'Lahore' OR City = 'Multan' AND Age < 25 return?", options: { A: "2", B: "3", C: "1", D: "0" }, answer: "A" },
+      { id: 14, demo: true, q: "The Orders table has these rows (CustomerID, Amount): (C1, 100), (C1, 200), (C2, 50), (C3, 300), (C3, 100). Which customers does SELECT CustomerID FROM Orders GROUP BY CustomerID HAVING SUM(Amount) > 250; return?", options: { A: "C3 only", B: "C1, C2 and C3", C: "C2 only", D: "C1 and C3" }, answer: "D" },
+      { id: 15, demo: true, q: "Which statement changes the STRUCTURE of a table instead of its data?", options: { A: "UPDATE Course SET Credits = 3;", B: "INSERT INTO Course VALUES (5, 'AI', 3);", C: "ALTER TABLE Course ADD Fee INT;", D: "DELETE FROM Course WHERE Credits = 1;" }, answer: "C" },
+      { id: 16, q: "The Level column of Course has the values 100, 200, 300 and 400. How many rows match WHERE Level BETWEEN 200 AND 400?", options: { A: "1", B: "3", C: "4", D: "2" }, answer: "B" },
+      { id: 17, q: "The GuardianPhone column of Student has the values '0301', NULL, NULL, '0312' and NULL. What does SELECT COUNT(*) FROM Student WHERE GuardianPhone != NULL; return?", options: { A: "NULL", B: "3", C: "2", D: "0" }, answer: "D" },
+      { id: 18, q: "Log Level values are 'ERROR', 'WARN', 'INFO' and 'DEBUG'. How many rows does SELECT Level FROM Log WHERE Level LIKE '____'; return?", options: { A: "2", B: "3", C: "1", D: "4" }, answer: "A" },
+      { id: 19, q: "A Room table has these rows (Type, Rent): (Single, 3000), (Suite, 9000), (Single, 4500), (Double, 5000). How many rows does WHERE Type = 'Single' OR Type = 'Double' AND Rent > 6000 return?", options: { A: "0", B: "2", C: "3", D: "1" }, answer: "B" },
+      { id: 20, q: "Parcel Weight values are 15, 4, 9 and 2. What does SELECT Weight FROM Parcel ORDER BY Weight LIMIT 2; return (MySQL)?", options: { A: "2 and 4", B: "15 and 4", C: "15 and 9", D: "4 and 2" }, answer: "A" },
+      { id: 21, q: "Student has 4 rows and Enrollment has 0 rows. How many rows does SELECT * FROM Student INNER JOIN Enrollment ON Student.ID = Enrollment.StudentID; return?", options: { A: "1", B: "4", C: "0", D: "NULL" }, answer: "C" },
+      { id: 22, q: "The Sales table has these rows (Salesperson, Amount): (Ali, 200), (Ali, 300), (Sara, 150), (Zain, 400), (Zain, 250). Which groups does SELECT Salesperson FROM Sales GROUP BY Salesperson HAVING SUM(Amount) > 450; return?", options: { A: "Ali and Zain", B: "Zain only", C: "Ali, Sara and Zain", D: "Ali only" }, answer: "A" },
+      { id: 23, q: "Table A has 4 rows and Table B has 3 rows. How many rows does SELECT * FROM A CROSS JOIN B; return?", options: { A: "7", B: "12", C: "4", D: "3" }, answer: "B" },
+      { id: 24, q: "What is a composite primary key?", options: { A: "A primary key formed by combining two or more columns to uniquely identify a row", B: "A column that stores both numbers and text", C: "Two separate primary keys in the same table", D: "A primary key that also acts as a CHECK constraint" }, answer: "A" },
+      { id: 25, q: "Product Code values are 'P-101', 'P-202', 'X-101' and 'P-3005'. How many rows does SELECT Code FROM Product WHERE Code LIKE 'P-___'; return?", options: { A: "1", B: "2", C: "3", D: "4" }, answer: "B" },
+      { id: 26, q: "What does Second Normal Form (2NF) eliminate?", options: { A: "Primary keys", B: "All foreign keys", C: "Atomic attributes", D: "Partial dependencies (non-key attributes depending on only part of a composite primary key)" }, answer: "D" },
+      { id: 27, q: "A Room table has these rows (Type, Rent): (Single, 3000), (Suite, 9000), (Single, 4500), (Double, 5000). How many rows does WHERE (Type = 'Single' OR Type = 'Double') AND Rent > 6000 return?", options: { A: "2", B: "1", C: "0", D: "3" }, answer: "C" },
+      { id: 28, q: "The Company column of Visitor has the values 'ABC', NULL, NULL and NULL. What does SELECT COUNT(*) FROM Visitor WHERE Company = NULL; return?", options: { A: "0", B: "NULL", C: "1", D: "3" }, answer: "A" },
+      { id: 29, q: "A table is created as Discount(Code VARCHAR(10) PRIMARY KEY, Percent INT CHECK (Percent BETWEEN 5 AND 50)). Which insert fails?", options: { A: "INSERT INTO Discount VALUES ('SAVE5', 5);", B: "INSERT INTO Discount VALUES ('FREE', 100);", C: "INSERT INTO Discount VALUES ('DEAL20', 20);", D: "INSERT INTO Discount VALUES ('HALF', 50);" }, answer: "B" },
+      { id: 30, q: "The Hours column of Task has the values 3, 6 and 9. After running UPDATE Task SET Hours = Hours * 2 WHERE Hours < 5; what does SELECT SUM(Hours) FROM Task; return?", options: { A: "36", B: "24", C: "21", D: "18" }, answer: "C" },
+      { id: 31, q: "Which query finds all Customers who have NEVER placed an order (assuming Customer.ID and Orders.CustomerID)?", options: { A: "SELECT Customer.* FROM Customer RIGHT JOIN Orders ON Customer.ID = Orders.CustomerID;", B: "SELECT Customer.* FROM Customer INNER JOIN Orders ON Customer.ID = Orders.CustomerID WHERE Orders.CustomerID IS NULL;", C: "SELECT Customer.* FROM Customer CROSS JOIN Orders WHERE Orders.CustomerID = NULL;", D: "SELECT Customer.* FROM Customer LEFT JOIN Orders ON Customer.ID = Orders.CustomerID WHERE Orders.CustomerID IS NULL;" }, answer: "D" },
+      { id: 32, q: "The Tier column of Account has the values 1, 2, 3 and 4. How many rows match WHERE Tier BETWEEN 2 AND 5?", options: { A: "1", B: "2", C: "4", D: "3" }, answer: "D" },
+      { id: 33, q: "The Allergy column of Patient has the values 'Dust', NULL, 'Pollen', NULL and NULL. What does SELECT COUNT(*) FROM Patient WHERE Allergy IS NULL; return?", options: { A: "2", B: "3", C: "0", D: "5" }, answer: "B" },
+      { id: 34, q: "A Book table has 6 rows with years 2015, 2017, 2019, 2020, 2022 and 2024. After DELETE FROM Book WHERE Year NOT BETWEEN 2018 AND 2023; how many rows remain?", options: { A: "2", B: "6", C: "3", D: "4" }, answer: "C" },
+      { id: 35, q: "A Order table has 6 rows with statuses 'New', 'Paid', 'New', 'Shipped', 'Paid' and 'Cancelled'. After DELETE FROM Order WHERE Status = 'New'; how many rows remain?", options: { A: "2", B: "5", C: "3", D: "4" }, answer: "D" },
+      { id: 36, q: "The Review table has these rows (ProductID, Stars): (P1, 5), (P1, 3), (P2, 2), (P2, 4), (P3, 5), (P3, 5). Which groups does SELECT ProductID FROM Review GROUP BY ProductID HAVING AVG(Stars) >= 4; return?", options: { A: "P1 and P3", B: "P2 and P3", C: "P3 only", D: "P1, P2 and P3" }, answer: "A" },
+      { id: 37, q: "The Edition column of Book contains 2, NULL, 3, 4, NULL and 1. What does SELECT COUNT(*) FROM Book; return?", options: { A: "2", B: "NULL", C: "6", D: "4" }, answer: "C" },
+      { id: 38, q: "A parent table Department has DeptID values 10 and 20. Employee.DeptID references Department.DeptID. Which insert into Employee fails?", options: { A: "INSERT INTO Employee VALUES (4, 'Hina', NULL);", B: "INSERT INTO Employee VALUES (3, 'Umar', 20);", C: "INSERT INTO Employee VALUES (1, 'Ali', 30);", D: "INSERT INTO Employee VALUES (2, 'Sara', 10);" }, answer: "C" },
+      { id: 39, q: "Book Price values are 900, 400, 1200 and 650. What does SELECT Price FROM Book ORDER BY Price DESC LIMIT 2; return (MySQL)?", options: { A: "400 and 1200", B: "400 and 650", C: "900 and 1200", D: "1200 and 900" }, answer: "D" },
+      { id: 40, q: "The Hours column of the Project table contains 10, 20, 15, 25 and 30. What does SELECT SUM(Hours) FROM Project WHERE Hours < 25; return?", options: { A: "55", B: "100", C: "45", D: "3" }, answer: "C" },
+      { id: 41, q: "How is a many-to-many (M:N) relationship between Student and Course converted into relational tables?", options: { A: "By placing CourseID inside Student only", B: "By creating a junction (bridge) table containing foreign keys from both Student and Course", C: "By merging Student and Course into a single column", D: "By placing StudentID inside Course only" }, answer: "B" },
+      { id: 42, q: "The Age column of Employee has the values 22, 25, 30, 35, 40 and 45. How many rows match WHERE Age BETWEEN 25 AND 40?", options: { A: "3", B: "4", C: "2", D: "5" }, answer: "B" },
+      { id: 43, q: "Flight Fare values are 25000, 18000, 32000 and 21000. What does SELECT Fare FROM Flight ORDER BY Fare LIMIT 2; return (MySQL)?", options: { A: "18000 and 32000", B: "25000 and 18000", C: "32000 and 25000", D: "18000 and 21000" }, answer: "D" },
+      { id: 44, q: "Which of the following is a DML (Data Manipulation Language) command?", options: { A: "DROP TABLE", B: "CREATE TABLE", C: "TRUNCATE TABLE", D: "UPDATE" }, answer: "D" },
+      { id: 45, q: "Product Price values are 450, 120, 890 and 300. What does SELECT Price FROM Product ORDER BY Price LIMIT 2; return (MySQL)?", options: { A: "890 and 450", B: "450 and 120", C: "120 and 300", D: "120 and 890" }, answer: "C" },
+      { id: 46, q: "The GuardianPhone column of Student has the values '0301', NULL, NULL, '0312' and NULL. What does SELECT COUNT(*) FROM Student WHERE GuardianPhone = NULL; return?", options: { A: "0", B: "NULL", C: "3", D: "2" }, answer: "A" },
+      { id: 47, q: "Movie Rating values are 7, 9, 6 and 8. What does SELECT Rating FROM Movie ORDER BY Rating DESC LIMIT 2; return (MySQL)?", options: { A: "6 and 7", B: "9 and 8", C: "7 and 9", D: "8 and 9" }, answer: "B" },
+      { id: 48, q: "Which condition is required for two SELECT queries to be combined with UNION?", options: { A: "Both tables must have identical primary key names", B: "Both queries must have the same number of columns with compatible data types", C: "Both queries must select from the exact same table", D: "Neither query can contain a WHERE clause" }, answer: "B" },
+      { id: 49, q: "Product Code values are 'P-101', 'P-202', 'X-101' and 'P-3005'. How many rows does SELECT Code FROM Product WHERE Code LIKE 'P-%'; return?", options: { A: "1", B: "3", C: "4", D: "2" }, answer: "B" },
+      { id: 50, q: "The Match table has these rows (Team, Goals): (T1, 2), (T1, 3), (T2, 1), (T2, 1), (T3, 4). Which groups does SELECT Team FROM Match GROUP BY Team HAVING SUM(Goals) >= 4; return?", options: { A: "T3 only", B: "T1 and T3", C: "T1 only", D: "T1, T2 and T3" }, answer: "B" },
+      { id: 51, q: "Which statement permanently deletes both the data AND the structure of the TempData table?", options: { A: "ALTER TABLE TempData DROP ALL;", B: "TRUNCATE TABLE TempData;", C: "DELETE FROM TempData;", D: "DROP TABLE TempData;" }, answer: "D" },
+      { id: 52, q: "Student marks are 50, 60, 70 and 80. How many rows does SELECT * FROM Student WHERE Marks >= (SELECT MIN(Marks) FROM Student); return?", options: { A: "4", B: "0", C: "3", D: "1" }, answer: "A" },
+      { id: 53, q: "A Flight table has these rows (Airline, Seats): (PIA, 5), (Emirates, 20), (PIA, 30), (Airblue, 10). How many rows does WHERE Airline = 'PIA' OR Airline = 'Airblue' AND Seats > 15 return?", options: { A: "0", B: "1", C: "2", D: "3" }, answer: "C" },
+      { id: 54, q: "A designer wants the Status column to accept only 'Pending', 'Shipped' or 'Delivered'. Which column definition is correct?", options: { A: "Status VARCHAR(15) UNIQUE ('Pending', 'Shipped', 'Delivered')", B: "Status VARCHAR(15) DEFAULT ('Pending', 'Shipped', 'Delivered')", C: "Status VARCHAR(15) CHECK (Status IN ('Pending', 'Shipped', 'Delivered'))", D: "Status VARCHAR(15) CHECK (Status = 'Pending', 'Shipped', 'Delivered')" }, answer: "C" },
+      { id: 55, q: "What does SELECT LENGTH('Database'); return in MySQL?", options: { A: "8", B: "7", C: "0", D: "9" }, answer: "A" },
+      { id: 56, q: "A table is created as Employee(EmpID INT PRIMARY KEY, Name VARCHAR(40) NOT NULL, Age INT CHECK (Age >= 18)). Which insert fails?", options: { A: "INSERT INTO Employee VALUES (3, 'Usman', 40);", B: "INSERT INTO Employee VALUES (2, 'Sara', 18);", C: "INSERT INTO Employee VALUES (1, 'Ali', 25);", D: "INSERT INTO Employee VALUES (4, 'Zara', 16);" }, answer: "D" },
+      { id: 57, q: "A table is created as User(UserID INT PRIMARY KEY, Email VARCHAR(50) NOT NULL UNIQUE, Role VARCHAR(20)). Which insert fails?", options: { A: "INSERT INTO User VALUES (1, 'a@mail.com', 'Admin');", B: "INSERT INTO User VALUES (3, 'b@mail.com', 'Guest');", C: "INSERT INTO User VALUES (4, 'c@mail.com', NULL);", D: "INSERT INTO User VALUES (2, NULL, 'Staff');" }, answer: "D" },
+      { id: 58, q: "Why is a join condition (ON clause) important when joining two tables?", options: { A: "To sort the output alphabetically", B: "To delete unmatched rows permanently from disk", C: "To automatically create a foreign key in the database", D: "To match related rows properly and avoid an unintended Cartesian product" }, answer: "D" },
+      { id: 59, q: "The Units column of Batch has the values 50, 60 and 70. After running UPDATE Batch SET Units = Units - 10 WHERE Units >= 60; what does SELECT SUM(Units) FROM Batch; return?", options: { A: "170", B: "180", C: "160", D: "150" }, answer: "C" },
+      { id: 60, q: "Department has IDs (10, 20, 30) and Employee has DeptID values (10, 10, 20). Which DeptID has NULL for employee columns in Department LEFT JOIN Employee?", options: { A: "20", B: "None", C: "10", D: "30" }, answer: "D" },
+      { id: 61, q: "Employee Salary values are 40000, 75000, 55000 and 90000. What does SELECT Salary FROM Employee ORDER BY Salary DESC LIMIT 1 OFFSET 1; return (MySQL)?", options: { A: "90000", B: "75000", C: "55000", D: "40000" }, answer: "B" },
+      { id: 62, q: "Suppose Loan.MemberID references Member.MemberID with ON UPDATE CASCADE. If MemberID 5 is updated to 50 in Member, what happens in Loan?", options: { A: "The update fails with a constraint error", B: "Matching MemberID values in Loan become NULL", C: "Matching rows in Loan are deleted", D: "Matching MemberID values in Loan automatically update from 5 to 50" }, answer: "D" },
+      { id: 63, q: "The Mileage column of the Vehicle table contains 12, 15, 18, 10 and 20. What does SELECT SUM(Mileage) FROM Vehicle WHERE Mileage >= 15; return?", options: { A: "22", B: "3", C: "75", D: "53" }, answer: "D" },
+      { id: 64, q: "A designer wants the Shift column to accept only 'Morning', 'Evening' or 'Night'. Which column definition is correct?", options: { A: "Shift VARCHAR(10) UNIQUE ('Morning', 'Evening', 'Night')", B: "Shift VARCHAR(10) DEFAULT ('Morning', 'Evening', 'Night')", C: "Shift VARCHAR(10) CHECK (Shift IN ('Morning', 'Evening', 'Night'))", D: "Shift VARCHAR(10) FOREIGN KEY ('Morning', 'Evening', 'Night')" }, answer: "C" },
+      { id: 65, q: "Which keyword eliminates duplicate rows from the output of a SELECT query?", options: { A: "GROUP", B: "DISTINCT", C: "SINGLE", D: "UNIQUE" }, answer: "B" },
+      { id: 66, q: "The Payment table has these rows (Method, Fee): (Cash, 50), (Cash, 50), (Card, 120), (Card, 180), (Online, 200). Which groups does SELECT Method FROM Payment GROUP BY Method HAVING SUM(Fee) > 150; return?", options: { A: "Card and Online", B: "Cash, Card and Online", C: "Card only", D: "Online only" }, answer: "A" },
+      { id: 67, q: "Which column definition automatically sets Country to 'Pakistan' if no value is provided during INSERT?", options: { A: "Country VARCHAR(30) DEFAULT 'Pakistan'", B: "Country VARCHAR(30) UNIQUE 'Pakistan'", C: "Country VARCHAR(30) CHECK 'Pakistan'", D: "Country VARCHAR(30) NOT NULL 'Pakistan'" }, answer: "A" },
+      { id: 68, q: "The Balance column of Account has the values 500, 1500 and 2500. After running UPDATE Account SET Balance = Balance - 200 WHERE Balance > 1000; what does SELECT SUM(Balance) FROM Account; return?", options: { A: "3900", B: "4500", C: "4300", D: "4100" }, answer: "D" },
+      { id: 69, q: "The Marks table has these rows (RollNo, Score): (R1, 40), (R1, 45), (R2, 90), (R3, 30), (R3, 35). Which groups does SELECT RollNo FROM Marks GROUP BY RollNo HAVING SUM(Score) > 80; return?", options: { A: "R1 and R2", B: "R1 only", C: "R1, R2 and R3", D: "R2 only" }, answer: "A" },
+      { id: 70, q: "What does COALESCE(Discount, 0) return when Discount is NULL?", options: { A: "An error", B: "NULL", C: "0", D: "1" }, answer: "C" },
+      { id: 71, q: "The Discount column of the Sale table contains 5, 10, 15, 5 and 20. What does SELECT SUM(Discount) FROM Sale WHERE Discount >= 10; return?", options: { A: "45", B: "10", C: "55", D: "3" }, answer: "A" },
+      { id: 72, q: "Branch has these rows (City, Revenue): (Lahore, 900), (Lahore, 700), (Multan, 400), (Multan, 600), (Multan, NULL). In the result of SELECT City, AVG(Revenue) FROM Branch GROUP BY City; what is the average for Multan?", options: { A: "500", B: "333.33", C: "800", D: "NULL" }, answer: "A" },
+      { id: 73, q: "The Library table has these rows (MemberID, Books): (M1, 2), (M1, 1), (M2, 4), (M3, 1), (M3, 1). Which groups does SELECT MemberID FROM Library GROUP BY MemberID HAVING SUM(Books) >= 3; return?", options: { A: "M1 only", B: "M1 and M2", C: "M2 only", D: "M1, M2 and M3" }, answer: "B" },
+      { id: 74, q: "An Employee table has columns (EmpID, Name, ManagerID) where ManagerID references EmpID in the same table. Which join pairs each employee with their manager's name?", options: { A: "NATURAL JOIN on Name", B: "SELF JOIN (joining Employee with itself using aliases)", C: "UNION ALL between EmpID and ManagerID", D: "CROSS JOIN without any ON condition" }, answer: "B" },
+      { id: 75, q: "The Price column of Product has the values 100, 200 and 300. After running UPDATE Product SET Price = Price + 50 WHERE Price < 250; what does SELECT SUM(Price) FROM Product; return?", options: { A: "750", B: "600", C: "700", D: "650" }, answer: "C" },
+      { id: 76, q: "The Donation table has these rows (Donor, Cash): (D1, 500), (D1, 500), (D2, 1200), (D3, 300), (D3, 400). Which groups does SELECT Donor FROM Donation GROUP BY Donor HAVING SUM(Cash) < 800; return?", options: { A: "D1 only", B: "D3 only", C: "D2 only", D: "D1 and D3" }, answer: "B" },
+      { id: 77, q: "Which column definition ensures Email cannot be empty (NULL) and no two users can share the same Email?", options: { A: "Email VARCHAR(100) CHECK (Email != 0)", B: "Email VARCHAR(100) NOT NULL UNIQUE", C: "Email VARCHAR(100) FOREIGN KEY", D: "Email VARCHAR(100) DEFAULT UNIQUE" }, answer: "B" },
+      { id: 78, q: "A Product table has 5 rows with prices 100, 200, 300, 400 and 500. After DELETE FROM Product WHERE Price >= 400; how many rows remain?", options: { A: "4", B: "3", C: "2", D: "5" }, answer: "B" },
+      { id: 79, q: "The Tax column of Order has the values 5, 10, 15 and 20. After running UPDATE Order SET Tax = 0 WHERE Tax < 12; what does SELECT SUM(Tax) FROM Order; return?", options: { A: "50", B: "20", C: "15", D: "35" }, answer: "D" },
+      { id: 80, q: "Which SQL statement modifies the structure of a table instead of its stored records?", options: { A: "UPDATE Employee SET Salary = 60000;", B: "ALTER TABLE Employee MODIFY Salary DECIMAL(10,2);", C: "DELETE FROM Employee WHERE Salary < 30000;", D: "INSERT INTO Employee VALUES (10, 'Zain', 50000);" }, answer: "B" },
+      { id: 81, q: "A table is created as Payment(PayID INT PRIMARY KEY, Mode VARCHAR(15) CHECK (Mode IN ('Cash', 'Card', 'Online'))). Which insert fails?", options: { A: "INSERT INTO Payment VALUES (3, 'Cheque');", B: "INSERT INTO Payment VALUES (4, 'Online');", C: "INSERT INTO Payment VALUES (1, 'Cash');", D: "INSERT INTO Payment VALUES (2, 'Card');" }, answer: "A" },
+      { id: 82, q: "OrderItem.OrderID is a foreign key that references Orders.OrderID. Which table must be created first?", options: { A: "OrderItem must be created before Orders", B: "OrderItem", C: "Either table can be created first", D: "Orders" }, answer: "D" },
+      { id: 83, q: "A Ticket table has 5 rows with seats 1, 2, 3, 4 and 5. After DELETE FROM Ticket WHERE Seat IN (1, 3, 5); how many rows remain?", options: { A: "2", B: "4", C: "1", D: "3" }, answer: "A" },
+      { id: 84, q: "The Note column of Invoice contains NULL, NULL and NULL. What does SELECT COUNT(Note) FROM Invoice; return?", options: { A: "NULL", B: "0", C: "1", D: "3" }, answer: "B" },
+      { id: 85, q: "A Parcel table has 6 rows with weights 2, 4, 6, 8, 10 and 12. After DELETE FROM Parcel WHERE Weight > 6; how many rows remain?", options: { A: "4", B: "6", C: "2", D: "3" }, answer: "D" },
+      { id: 86, q: "What does SELECT ROUND(45.678, 1); return in SQL?", options: { A: "45.6", B: "46", C: "45.68", D: "45.7" }, answer: "D" },
+      { id: 87, q: "The Attempt column of Exam has the values 1, 2, 3 and 4. How many rows match WHERE Attempt IN (1, 3)?", options: { A: "1", B: "2", C: "4", D: "3" }, answer: "B" },
+      { id: 88, q: "The Fare column of the Ticket table contains 300, 500, 700, 400 and 600. What does SELECT SUM(Fare) FROM Ticket WHERE Fare >= 500; return?", options: { A: "700", B: "1800", C: "2500", D: "3" }, answer: "B" },
+      { id: 89, q: "Employee EmpCode values are 'E01', 'E02', 'E105' and 'M01'. How many rows does SELECT EmpCode FROM Employee WHERE EmpCode LIKE 'E__'; return?", options: { A: "1", B: "2", C: "3", D: "4" }, answer: "B" },
+      { id: 90, q: "A Book table has these rows (Genre, Pages): (Fiction, 150), (History, 400), (Fiction, 350), (Poetry, 100). How many rows does WHERE Genre = 'Fiction' OR Genre = 'Poetry' AND Pages > 200 return?", options: { A: "0", B: "2", C: "1", D: "3" }, answer: "B" },
+      { id: 91, q: "Course DeptCode values are 'CS-101', 'CS-202', 'SE-101' and 'EE-301'. How many rows does SELECT DeptCode FROM Course WHERE DeptCode LIKE '__-101'; return?", options: { A: "3", B: "2", C: "1", D: "4" }, answer: "B" },
+      { id: 92, q: "A Task table has 5 rows with priorities 1, 2, 3, 4 and 5. After DELETE FROM Task WHERE Priority NOT IN (1, 2); how many rows remain?", options: { A: "1", B: "2", C: "3", D: "4" }, answer: "B" },
+      { id: 93, q: "A Car table has these rows (Brand, Year): (Honda, 2016), (Toyota, 2022), (Honda, 2021), (Suzuki, 2015). How many rows does WHERE (Brand = 'Honda' OR Brand = 'Suzuki') AND Year > 2018 return?", options: { A: "0", B: "2", C: "1", D: "3" }, answer: "C" },
+      { id: 94, q: "A Product table has these rows (Category, Price): (Book, 500), (Toy, 200), (Book, 1200), (Pen, 100). How many rows does WHERE Category = 'Book' OR Category = 'Pen' AND Price > 300 return?", options: { A: "0", B: "2", C: "1", D: "3" }, answer: "B" },
+      { id: 95, q: "The Points column of the Task table contains 5, 10, 15, 20 and 5. What does SELECT SUM(Points) FROM Task WHERE Points > 5; return?", options: { A: "55", B: "3", C: "45", D: "10" }, answer: "C" },
+      { id: 96, q: "The Months column of the Subscription table contains 1, 6, 12, 3 and 6. What does SELECT SUM(Months) FROM Subscription WHERE Months > 3; return?", options: { A: "28", B: "4", C: "3", D: "24" }, answer: "D" },
+      { id: 97, q: "A table is created as Product(ProdID INT PRIMARY KEY, Title VARCHAR(50) NOT NULL, Price INT CHECK (Price > 0)). Which insert fails?", options: { A: "INSERT INTO Product VALUES (11, 'Book', 1);", B: "INSERT INTO Product VALUES (10, 'Pen', 50);", C: "INSERT INTO Product VALUES (12, 'Bag', 1200);", D: "INSERT INTO Product VALUES (13, 'Eraser', 0);" }, answer: "D" },
+      { id: 98, q: "A Student table has 5 rows with GPAs 1.8, 2.2, 2.5, 3.1 and 3.8. After DELETE FROM Student WHERE GPA < 2.5; how many rows remain?", options: { A: "3", B: "4", C: "2", D: "1" }, answer: "A" },
+      { id: 99, q: "The Price column of Product has the values 500, 1000, 1500, 2000 and 2500. How many rows match WHERE Price BETWEEN 1000 AND 2000?", options: { A: "5", B: "1", C: "3", D: "2" }, answer: "C" },
+      { id: 100, q: "A Member table has these rows (Plan, Months): (Basic, 1), (Pro, 12), (Basic, 6), (Free, 2). How many rows does WHERE Plan = 'Basic' OR Plan = 'Free' AND Months > 3 return?", options: { A: "2", B: "0", C: "3", D: "1" }, answer: "A" },
+      { id: 101, q: "A Book table has these rows (Genre, Pages): (Fiction, 150), (History, 400), (Fiction, 350), (Poetry, 100). How many rows does WHERE (Genre = 'Fiction' OR Genre = 'Poetry') AND Pages > 200 return?", options: { A: "1", B: "2", C: "3", D: "0" }, answer: "A" },
+      { id: 102, q: "OrderItem.OrderID references Orders.OrderID with ON DELETE CASCADE. If Order 50 has 3 items in OrderItem, what happens when you run DELETE FROM Orders WHERE OrderID = 50;?", options: { A: "Order 50 and its 3 matching rows in OrderItem are all deleted", B: "The OrderID in OrderItem becomes 0", C: "Only Order 50 is deleted and the 3 items remain unchanged", D: "The delete fails with a foreign key error" }, answer: "A" },
+      { id: 103, q: "Mobile Storage values are 64, 256, 128 and 512. What does SELECT Storage FROM Mobile ORDER BY Storage DESC LIMIT 2; return (MySQL)?", options: { A: "64 and 128", B: "256 and 512", C: "64 and 512", D: "512 and 256" }, answer: "D" },
+      { id: 104, q: "Tag Label values are 'v1.0', 'v2.1', 'v10.0' and 'beta'. How many rows does SELECT Label FROM Tag WHERE Label LIKE 'v_._'; return?", options: { A: "3", B: "2", C: "1", D: "4" }, answer: "B" },
+      { id: 105, q: "A Order table has these rows (Status, Amount): (Pending, 100), (Paid, 500), (Pending, 800), (Cancelled, 200). How many rows does WHERE Status = 'Pending' OR Status = 'Cancelled' AND Amount > 400 return?", options: { A: "0", B: "2", C: "1", D: "3" }, answer: "B" },
+      { id: 106, q: "Which statement creates a view named HighEarners for employees with Salary > 80000?", options: { A: "CREATE VIEW HighEarners AS SELECT * FROM Employee WHERE Salary > 80000;", B: "ALTER VIEW HighEarners AS Employee.Salary > 80000;", C: "INSERT VIEW HighEarners SELECT * FROM Employee WHERE Salary > 80000;", D: "CREATE TABLE VIEW HighEarners FROM Employee WHERE Salary > 80000;" }, answer: "A" },
+      { id: 107, q: "Customer has IDs (1, 2, 3) and Orders has CustomerID values (1, 1). How many rows does SELECT * FROM Customer LEFT JOIN Orders ON Customer.ID = Orders.CustomerID; return?", options: { A: "4", B: "6", C: "3", D: "2" }, answer: "A" },
+      { id: 108, q: "A Customer table has 5 rows with cities 'Lahore', 'Karachi', 'Lahore', 'Islamabad' and 'Multan'. After DELETE FROM Customer WHERE City != 'Lahore'; how many rows remain?", options: { A: "1", B: "4", C: "2", D: "3" }, answer: "C" },
+      { id: 109, q: "The Marks column of Student has the values 40, 50, 60, 70, 80 and 90. How many rows match WHERE Marks BETWEEN 50 AND 80?", options: { A: "4", B: "3", C: "2", D: "6" }, answer: "A" },
+      { id: 110, q: "Car Rent values are 5000, 3500, 7000 and 4500. What does SELECT Rent FROM Car ORDER BY Rent LIMIT 2; return (MySQL)?", options: { A: "3500 and 4500", B: "5000 and 3500", C: "7000 and 5000", D: "3500 and 7000" }, answer: "A" },
+      { id: 111, q: "In an ER diagram, what does a double oval represent?", options: { A: "A multivalued attribute (e.g., multiple phone numbers)", B: "A primary key attribute", C: "A derived attribute", D: "A weak entity" }, answer: "A" },
+      { id: 112, q: "Salesman has these rows (Region, Commission): (North, 4000), (North, 6000), (South, 3000), (South, NULL), (South, NULL). In the result of SELECT Region, AVG(Commission) FROM Salesman GROUP BY Region; what is the average for South?", options: { A: "3000", B: "1000", C: "1500", D: "NULL" }, answer: "A" },
+      { id: 113, q: "The Temp column of Sensor has the values 15, 20, 25, 30 and 35. How many rows match WHERE Temp BETWEEN 20 AND 30?", options: { A: "1", B: "2", C: "3", D: "5" }, answer: "C" },
+      { id: 114, q: "A table is created as Account(AccNo INT PRIMARY KEY, Holder VARCHAR(40) NOT NULL, Balance INT CHECK (Balance >= 500)). Which insert fails?", options: { A: "INSERT INTO Account VALUES (101, 'Hamza', 500);", B: "INSERT INTO Account VALUES (104, 'Nida', 450);", C: "INSERT INTO Account VALUES (102, 'Ayesha', 1500);", D: "INSERT INTO Account VALUES (103, 'Bilal', 5000);" }, answer: "B" },
+      { id: 115, q: "The Tax column of the Invoice table contains 10, 25, 15, 30 and 20. What does SELECT SUM(Tax) FROM Invoice WHERE Tax > 15; return?", options: { A: "3", B: "25", C: "100", D: "75" }, answer: "D" },
+      { id: 116, q: "A table is created as Subscription(SubID INT PRIMARY KEY, Plan VARCHAR(15) NOT NULL, Months INT CHECK (Months IN (1, 3, 6, 12))). Which insert fails?", options: { A: "INSERT INTO Subscription VALUES (1, 'Monthly', 1);", B: "INSERT INTO Subscription VALUES (2, 'Quarterly', 3);", C: "INSERT INTO Subscription VALUES (3, 'BiAnnual', 5);", D: "INSERT INTO Subscription VALUES (4, 'Annual', 12);" }, answer: "C" },
+      { id: 117, q: "The Marks column of Student has the values 40, 50, 60, 70, 80 and 90. How many rows match WHERE Marks NOT BETWEEN 60 AND 90?", options: { A: "3", B: "4", C: "2", D: "1" }, answer: "C" },
+      { id: 118, q: "A table is created as Donation(DonID INT PRIMARY KEY, Donor VARCHAR(30) NOT NULL, Amount INT CHECK (Amount >= 100)). Which insert fails?", options: { A: "INSERT INTO Donation VALUES (3, 'Daniyal', 50);", B: "INSERT INTO Donation VALUES (1, 'Omer', 100);", C: "INSERT INTO Donation VALUES (4, 'Maham', 2000);", D: "INSERT INTO Donation VALUES (2, 'Zoya', 500);" }, answer: "A" },
+      { id: 119, q: "A Course table has these rows (Mode, Credits): (Online, 1), (Campus, 4), (Online, 3), (Hybrid, 2). How many rows does WHERE Mode = 'Online' OR Mode = 'Hybrid' AND Credits > 2 return?", options: { A: "2", B: "3", C: "0", D: "1" }, answer: "A" },
+      { id: 120, q: "The Jersey column of Player has the values 7, 9, 10, 11 and 18. How many rows match WHERE Jersey IN (7, 10, 99)?", options: { A: "0", B: "2", C: "3", D: "1" }, answer: "B" },
+      { id: 121, q: "The Email column of Employee has the values 'a@x.com', NULL, 'b@x.com', NULL and 'c@x.com'. What does SELECT COUNT(*) FROM Employee WHERE Email IS NULL; return?", options: { A: "2", B: "0", C: "3", D: "5" }, answer: "A" },
+      { id: 122, q: "The Duration column of Movie has the values 90, 110, 120, 140 and 160. How many rows match WHERE Duration BETWEEN 110 AND 140?", options: { A: "2", B: "4", C: "1", D: "3" }, answer: "D" },
+      { id: 123, q: "User Username values are 'admin1', 'admin22', 'guest1' and 'admin9'. How many rows does SELECT Username FROM User WHERE Username LIKE 'admin%'; return?", options: { A: "4", B: "2", C: "1", D: "3" }, answer: "D" },
+      { id: 124, q: "The Discount column of Product contains 10, NULL, NULL and NULL. What does SELECT COUNT(Discount) FROM Product; return?", options: { A: "4", B: "1", C: "3", D: "0" }, answer: "B" },
+      { id: 125, q: "A table is created as Student(RollNo INT PRIMARY KEY, Name VARCHAR(30) NOT NULL, Semester INT CHECK (Semester BETWEEN 1 AND 8)). Which insert fails?", options: { A: "INSERT INTO Student VALUES (4, 'Sana', 9);", B: "INSERT INTO Student VALUES (1, 'Tariq', 1);", C: "INSERT INTO Student VALUES (2, 'Hina', 8);", D: "INSERT INTO Student VALUES (3, 'Kamran', 4);" }, answer: "A" },
+      { id: 126, q: "Customer Phone values are '0300-123', '0321-456', '0300-789' and '042-111'. How many rows does SELECT Phone FROM Customer WHERE Phone LIKE '0300%'; return?", options: { A: "4", B: "2", C: "1", D: "3" }, answer: "B" },
+      { id: 127, q: "Driver has these rows (Shift, Trips): (Day, 12), (Day, 16), (Night, 8), (Night, 10), (Night, NULL). In the result of SELECT Shift, AVG(Trips) FROM Driver GROUP BY Shift; what is the average for Night?", options: { A: "NULL", B: "6", C: "14", D: "9" }, answer: "D" },
+      { id: 128, q: "Appointment.DoctorID references Doctor.DoctorID. Which table must be dropped first if you want to remove both tables without disabling constraints?", options: { A: "Appointment", B: "Doctor", C: "Either table can be dropped first", D: "Both tables must be truncated before dropping" }, answer: "A" },
+      { id: 129, q: "Invoice.ClientID references Client.ClientID. Which table must be dropped first without disabling foreign key checks?", options: { A: "Both must be altered first", B: "Invoice", C: "Client", D: "Drop order never matters in SQL" }, answer: "B" },
+      { id: 130, q: "The Score column of the Exam table contains 60, 75, 85, 40 and 95. What does SELECT SUM(Score) FROM Exam WHERE Score >= 75; return?", options: { A: "3", B: "255", C: "355", D: "100" }, answer: "B" },
+      { id: 131, q: "What does COALESCE(Phone, Mobile, 'N/A') return if Phone is NULL and Mobile is '0300-111'?", options: { A: "'N/A'", B: "NULL", C: "Both values concatenated", D: "'0300-111'" }, answer: "D" },
+      { id: 132, q: "Runner Seconds values are 54, 49, 61 and 51. What does SELECT Seconds FROM Runner ORDER BY Seconds ASC LIMIT 2; return (MySQL)?", options: { A: "49 and 61", B: "49 and 51", C: "54 and 49", D: "61 and 54" }, answer: "B" },
+      { id: 133, q: "The Code column of Branch has the values 10, 20, 30, 40 and 50. How many rows match WHERE Code IN (20, 40, 60)?", options: { A: "2", B: "0", C: "1", D: "3" }, answer: "A" },
+      { id: 134, q: "The Discount column of Order has the values 0, 5, 10, 15 and 20. How many rows match WHERE Discount BETWEEN 5 AND 15?", options: { A: "4", B: "2", C: "3", D: "1" }, answer: "C" },
+      { id: 135, q: "Table P has IDs (1, 2) and Table Q has IDs (3, 4). How many rows does SELECT * FROM P LEFT JOIN Q ON P.ID = Q.ID; return?", options: { A: "4", B: "1", C: "2", D: "0" }, answer: "C" },
+      { id: 136, q: "Which statement removes the column Fax from an existing Supplier table?", options: { A: "DELETE FROM Supplier WHERE Column = 'Fax';", B: "DROP TABLE Supplier.Fax;", C: "UPDATE Supplier REMOVE Fax;", D: "ALTER TABLE Supplier DROP COLUMN Fax;" }, answer: "D" },
+      { id: 137, q: "The Rating column of the Movie table contains 6, 8, 9, 7 and 5. What does SELECT SUM(Rating) FROM Movie WHERE Rating > 7; return?", options: { A: "17", B: "35", C: "2", D: "18" }, answer: "A" },
+      { id: 138, q: "The Copies column of Book has the values 1, 3, 5 and 2. After running UPDATE Book SET Copies = Copies + 2 WHERE Copies <= 2; what does SELECT SUM(Copies) FROM Book; return?", options: { A: "13", B: "15", C: "19", D: "11" }, answer: "B" },
+      { id: 139, q: "What is a candidate key?", options: { A: "An attribute that always has duplicate values", B: "A key used only for sorting output", C: "Any foreign key that allows NULL values", D: "Any minimal set of attributes that can uniquely identify every tuple in a relation" }, answer: "D" },
+      { id: 140, q: "The Enrollment table has these rows (CourseID, StudentID): (CS1, S1), (CS1, S2), (CS1, S3), (CS2, S1), (CS3, S2), (CS3, S4). Which groups does SELECT CourseID FROM Enrollment GROUP BY CourseID HAVING COUNT(*) > 2; return?", options: { A: "CS1, CS2 and CS3", B: "CS2 only", C: "CS1 and CS3", D: "CS1 only" }, answer: "D" },
+      { id: 141, q: "A Flight table has 6 rows with delays 0, 10, 20, 30, 45 and 60. After DELETE FROM Flight WHERE Delay BETWEEN 15 AND 50; how many rows remain?", options: { A: "3", B: "4", C: "2", D: "1" }, answer: "A" },
+      { id: 142, q: "The Coach column of Train has the values 1, 2, 3, 4 and 5. How many rows match WHERE Coach BETWEEN 1 AND 3?", options: { A: "4", B: "3", C: "2", D: "1" }, answer: "B" },
+      { id: 143, q: "The Zone column of Parcel has the values 1, 2, 3, 4, 5 and 6. How many rows match WHERE Zone NOT BETWEEN 2 AND 5?", options: { A: "3", B: "1", C: "4", D: "2" }, answer: "D" },
+      { id: 144, q: "The Sales table has these rows (Salesperson, Amount): (Ali, 200), (Ali, 300), (Sara, 150), (Zain, 400), (Zain, 250). Which groups does SELECT Salesperson FROM Sales GROUP BY Salesperson HAVING COUNT(*) >= 2; return?", options: { A: "Sara only", B: "Zain only", C: "Ali and Zain", D: "Ali, Sara and Zain" }, answer: "C" },
+      { id: 145, q: "A table is created as Vehicle(RegNo VARCHAR(10) PRIMARY KEY, Model VARCHAR(20) NOT NULL, Year INT CHECK (Year >= 2000)). Which insert fails?", options: { A: "INSERT INTO Vehicle VALUES ('LEA-4', 'Alto', 2023);", B: "INSERT INTO Vehicle VALUES ('LEA-3', 'Mehran', 1998);", C: "INSERT INTO Vehicle VALUES ('LEA-2', 'Corolla', 2000);", D: "INSERT INTO Vehicle VALUES ('LEA-1', 'Civic', 2020);" }, answer: "B" },
+      { id: 146, q: "The Balance column of the Account table contains 1000, 2000, 500, 3000 and 1500. What does SELECT SUM(Balance) FROM Account WHERE Balance > 1000; return?", options: { A: "1500", B: "8000", C: "6500", D: "3" }, answer: "C" },
+      { id: 147, q: "Product Price values are 450, 120, 890 and 300. What does SELECT Price FROM Product ORDER BY Price DESC LIMIT 2; return (MySQL)?", options: { A: "120 and 300", B: "450 and 890", C: "300 and 890", D: "890 and 450" }, answer: "D" },
+      { id: 148, q: "The Days column of Invoice has the values 7, 14, 21, 30 and 45. How many rows match WHERE Days BETWEEN 14 AND 30?", options: { A: "5", B: "2", C: "1", D: "3" }, answer: "D" },
+      { id: 149, q: "The Goals column of the Player table contains 2, 1, 4, 3 and 0. What does SELECT SUM(Goals) FROM Player WHERE Goals > 1; return?", options: { A: "1", B: "3", C: "10", D: "9" }, answer: "D" },
+      { id: 150, q: "The Reading column of the Sensor table contains 22, 28, 31, 19 and 25. What does SELECT SUM(Reading) FROM Sensor WHERE Reading >= 25; return?", options: { A: "41", B: "3", C: "84", D: "125" }, answer: "C" },
+      { id: 151, q: "A table is created as Loan(LoanID INT PRIMARY KEY, Client VARCHAR(30) NOT NULL, Interest INT CHECK (Interest BETWEEN 5 AND 20)). Which insert fails?", options: { A: "INSERT INTO Loan VALUES (3, 'Raza', 12);", B: "INSERT INTO Loan VALUES (1, 'Asad', 5);", C: "INSERT INTO Loan VALUES (4, 'Taha', 3);", D: "INSERT INTO Loan VALUES (2, 'Mona', 20);" }, answer: "C" },
+      { id: 152, q: "Worker has these rows (Plant, Overtime): (P1, 6), (P1, 10), (P2, 12), (P2, NULL), (P2, NULL). In the result of SELECT Plant, AVG(Overtime) FROM Worker GROUP BY Plant; what is the average for P2?", options: { A: "NULL", B: "12", C: "4", D: "8" }, answer: "B" },
+      { id: 153, q: "A Product table has these rows (Category, Price): (Book, 500), (Toy, 200), (Book, 1200), (Pen, 100). How many rows does WHERE (Category = 'Book' OR Category = 'Pen') AND Price > 300 return?", options: { A: "4", B: "2", C: "3", D: "1" }, answer: "B" },
+      { id: 154, q: "Employee Salary values are 40000, 75000, 55000 and 90000. What does SELECT Salary FROM Employee ORDER BY Salary ASC LIMIT 1 OFFSET 1; return (MySQL)?", options: { A: "55000", B: "40000", C: "90000", D: "75000" }, answer: "A" },
+      { id: 155, q: "Which SQL statement changes data inside a table instead of changing its schema?", options: { A: "CREATE TABLE Product (ID INT);", B: "UPDATE Product SET Price = Price * 1.1;", C: "DROP TABLE Product;", D: "ALTER TABLE Product ADD Discount INT;" }, answer: "B" },
+      { id: 156, q: "A table is created as Shift(ShiftID INT PRIMARY KEY, Title VARCHAR(20) NOT NULL, Hours INT CHECK (Hours BETWEEN 4 AND 12)). Which insert fails?", options: { A: "INSERT INTO Shift VALUES (1, 'Morning', 8);", B: "INSERT INTO Shift VALUES (2, 'Half', 4);", C: "INSERT INTO Shift VALUES (3, 'Long', 12);", D: "INSERT INTO Shift VALUES (4, 'Short', 2);" }, answer: "D" },
+      { id: 157, q: "Order.CustomerID is a foreign key referencing Customer.CustomerID. If both tables are empty, which insert must run first?", options: { A: "DROP TABLE Customer", B: "DELETE FROM Customer ...", C: "INSERT INTO Order ...", D: "INSERT INTO Customer ..." }, answer: "D" },
+      { id: 158, q: "Laptop Price values are 110000, 85000, 150000 and 95000. What does SELECT Price FROM Laptop ORDER BY Price LIMIT 2; return (MySQL)?", options: { A: "85000 and 150000", B: "110000 and 85000", C: "150000 and 110000", D: "85000 and 95000" }, answer: "D" },
+      { id: 159, q: "A Course table has these rows (Mode, Credits): (Online, 1), (Campus, 4), (Online, 3), (Hybrid, 2). How many rows does WHERE (Mode = 'Online' OR Mode = 'Hybrid') AND Credits > 2 return?", options: { A: "2", B: "0", C: "1", D: "3" }, answer: "C" },
+      { id: 160, q: "A Invoice table has 6 rows with amounts 50, 100, 150, 200, 250 and 300. After DELETE FROM Invoice WHERE Amount < 150 OR Amount > 250; how many rows remain?", options: { A: "1", B: "4", C: "2", D: "3" }, answer: "D" },
+      { id: 161, q: "A designer wants the Priority column to accept only 1, 2 or 3. Which column definition is correct?", options: { A: "Priority INT CHECK (Priority = 1, 2, 3)", B: "Priority INT CHECK (Priority IN (1, 2, 3))", C: "Priority INT UNIQUE (1, 2, 3)", D: "Priority INT DEFAULT (1, 2, 3)" }, answer: "B" },
+      { id: 162, q: "The Expense table has these rows (Dept, Cost): (IT, 1000), (IT, 2000), (HR, 2500), (Admin, 800), (Admin, 900). Which groups does SELECT Dept FROM Expense GROUP BY Dept HAVING SUM(Cost) >= 2500; return?", options: { A: "IT and HR", B: "HR only", C: "IT, HR and Admin", D: "IT only" }, answer: "A" },
+      { id: 163, q: "The Fax column of Client contains '111', NULL, NULL and '222'. What does SELECT COUNT(*) FROM Client; return?", options: { A: "NULL", B: "0", C: "4", D: "2" }, answer: "C" },
+      { id: 164, q: "Exam Duration values are 90, 60, 180 and 120. What does SELECT Duration FROM Exam ORDER BY Duration DESC LIMIT 1 OFFSET 1; return (MySQL)?", options: { A: "120", B: "180", C: "60", D: "90" }, answer: "A" },
+      { id: 165, q: "Table X has (10, 20, 30) and Table Y has (20, 30, 40). What does SELECT ID FROM X INTERSECT SELECT ID FROM Y; return?", options: { A: "10, 20, 30 and 40", B: "20 and 30", C: "10 only", D: "40 only" }, answer: "B" },
+      { id: 166, q: "A designer wants the Gender column to accept only 'M' or 'F'. Which column definition is correct?", options: { A: "Gender CHAR(1) CHECK (Gender IN ('M', 'F'))", B: "Gender CHAR(1) PRIMARY KEY ('M', 'F')", C: "Gender CHAR(1) DEFAULT ('M', 'F')", D: "Gender CHAR(1) IN ('M', 'F')" }, answer: "A" },
+      { id: 167, q: "The Offset column of Sensor has the values 2, 4, 6 and 8. After running UPDATE Sensor SET Offset = 0 WHERE Offset IN (2, 8); what does SELECT SUM(Offset) FROM Sensor; return?", options: { A: "20", B: "16", C: "14", D: "10" }, answer: "D" },
+      { id: 168, q: "The CouponCode column of Order has the values 'SAVE10', NULL, 'WELCOME' and NULL. What does SELECT COUNT(*) FROM Order WHERE CouponCode IS NULL; return?", options: { A: "4", B: "0", C: "2", D: "NULL" }, answer: "C" },
+      { id: 169, q: "A Driver table has 5 rows with points 0, 3, 6, 9 and 12. After DELETE FROM Driver WHERE Points > 6; how many rows remain?", options: { A: "3", B: "4", C: "2", D: "1" }, answer: "A" },
+      { id: 170, q: "The Beds column of Room has the values 1, 2, 3 and 1. After running UPDATE Room SET Beds = 2 WHERE Beds = 1; what does SELECT SUM(Beds) FROM Room; return?", options: { A: "9", B: "7", C: "8", D: "10" }, answer: "A" },
+      { id: 171, q: "User Username values are 'admin1', 'admin22', 'guest1' and 'admin9'. How many rows does SELECT Username FROM User WHERE Username LIKE 'admin_'; return?", options: { A: "3", B: "2", C: "1", D: "4" }, answer: "B" },
+      { id: 172, q: "Supplier has 3 rows and Product has 5 rows, and every Product has a valid SupplierID. How many rows does Product INNER JOIN Supplier return?", options: { A: "5", B: "3", C: "8", D: "15" }, answer: "A" },
+      { id: 173, q: "The ReferralID column of Member has the values 101, NULL, NULL and 105. What does SELECT COUNT(*) FROM Member WHERE ReferralID IS NOT NULL; return?", options: { A: "4", B: "0", C: "2", D: "NULL" }, answer: "C" },
+      { id: 174, q: "A table is created as Invoice(InvID INT PRIMARY KEY, Customer VARCHAR(30) NOT NULL, Tax INT CHECK (Tax >= 0 AND Tax <= 25)). Which insert fails?", options: { A: "INSERT INTO Invoice VALUES (2, 'Beta', 17);", B: "INSERT INTO Invoice VALUES (1, 'Alpha', 0);", C: "INSERT INTO Invoice VALUES (4, 'Delta', 30);", D: "INSERT INTO Invoice VALUES (3, 'Gamma', 25);" }, answer: "C" },
+      { id: 175, q: "Employee salaries are 30000, 50000, 70000 and 90000. How many rows does SELECT * FROM Employee WHERE Salary > (SELECT AVG(Salary) FROM Employee); return?", options: { A: "4", B: "2", C: "1", D: "3" }, answer: "B" },
+      { id: 176, q: "Product prices are 100, 200, 300 and 400. What does SELECT * FROM Product WHERE Price = (SELECT MAX(Price) FROM Product); return?", options: { A: "All 4 rows", B: "The row with Price = 100", C: "The row with Price = 400", D: "0 rows" }, answer: "C" },
+      { id: 177, q: "The Shelf column of Item has the values 1, 2, 3, 4 and 5. How many rows match WHERE Shelf NOT IN (1, 5)?", options: { A: "2", B: "3", C: "1", D: "4" }, answer: "B" },
+      { id: 178, q: "What is a superkey?", options: { A: "Only a single-column primary key", B: "A set of one or more attributes that uniquely identifies a tuple (may include extra attributes)", C: "A foreign key referencing two tables", D: "An attribute with a DEFAULT value" }, answer: "B" },
+      { id: 179, q: "Table X has (10, 20, 30) and Table Y has (20, 30, 40). What does SELECT ID FROM X EXCEPT SELECT ID FROM Y; return?", options: { A: "40", B: "10", C: "20 and 30", D: "10 and 40" }, answer: "B" },
+      { id: 180, q: "Student Marks values are 65, 92, 78 and 88. What does SELECT Marks FROM Student ORDER BY Marks DESC LIMIT 2; return (MySQL)?", options: { A: "65 and 78", B: "65 and 92", C: "92 and 88", D: "88 and 92" }, answer: "C" },
+      { id: 181, q: "The Payment table has these rows (Method, Fee): (Cash, 50), (Cash, 50), (Card, 120), (Card, 180), (Online, 200). Which groups does SELECT Method FROM Payment GROUP BY Method HAVING MIN(Fee) >= 100; return?", options: { A: "Online only", B: "Cash and Card", C: "Card and Online", D: "Cash only" }, answer: "C" },
+      { id: 182, q: "Which SQL command is part of TCL (Transaction Control Language) and permanently saves changes made in a transaction?", options: { A: "ROLLBACK", B: "COMMIT", C: "GRANT", D: "ALTER" }, answer: "B" },
+      { id: 183, q: "The Project table has these rows (TeamID, Tasks): (TM1, 3), (TM1, 4), (TM2, 8), (TM3, 2), (TM3, 2). Which groups does SELECT TeamID FROM Project GROUP BY TeamID HAVING SUM(Tasks) > 6; return?", options: { A: "TM1 only", B: "TM1, TM2 and TM3", C: "TM1 and TM2", D: "TM2 only" }, answer: "C" },
+      { id: 184, q: "The Installment column of the Loan table contains 2000, 3000, 4000, 1000 and 5000. What does SELECT SUM(Installment) FROM Loan WHERE Installment > 2000; return?", options: { A: "3000", B: "15000", C: "12000", D: "3" }, answer: "C" },
+      { id: 185, q: "Table A has values (1, 2, 3) and Table B has values (3, 4, 5). How many rows does SELECT ID FROM A UNION ALL SELECT ID FROM B; return?", options: { A: "5", B: "3", C: "6", D: "1" }, answer: "C" },
+      { id: 186, q: "The Email column of Employee has the values 'a@x.com', NULL, 'b@x.com', NULL and 'c@x.com'. What does SELECT COUNT(*) FROM Employee WHERE Email IS NOT NULL; return?", options: { A: "2", B: "3", C: "5", D: "0" }, answer: "B" },
+      { id: 187, q: "Item SKU values are 'A10B', 'A20C', 'B10B' and 'A300B'. How many rows does SELECT SKU FROM Item WHERE SKU LIKE 'A__B'; return?", options: { A: "0", B: "1", C: "3", D: "2" }, answer: "B" },
+      { id: 188, q: "Which SQL command belongs to DCL (Data Control Language) and gives a user permission to SELECT on a table?", options: { A: "COMMIT", B: "REVOKE", C: "GRANT", D: "INSERT" }, answer: "C" },
+      { id: 189, q: "The Enrollment table has these rows (CourseID, StudentID): (CS1, S1), (CS1, S2), (CS1, S3), (CS2, S1), (CS3, S2), (CS3, S4). Which groups does SELECT CourseID FROM Enrollment GROUP BY CourseID HAVING COUNT(*) >= 2; return?", options: { A: "CS1 only", B: "CS1 and CS3", C: "CS1, CS2 and CS3", D: "CS2 and CS3" }, answer: "B" },
+      { id: 190, q: "Employee has these rows (Dept, Salary): (IT, 70000), (IT, 90000), (HR, 50000), (HR, NULL). In the result of SELECT Dept, AVG(Salary) FROM Employee GROUP BY Dept; what is the average for HR?", options: { A: "50000", B: "25000", C: "NULL", D: "80000" }, answer: "A" },
+      { id: 191, q: "Which statement adds a new column Phone VARCHAR(15) to an existing Customer table?", options: { A: "CREATE COLUMN Phone VARCHAR(15) IN Customer;", B: "INSERT INTO Customer ADD Phone VARCHAR(15);", C: "UPDATE Customer ADD Phone VARCHAR(15);", D: "ALTER TABLE Customer ADD Phone VARCHAR(15);" }, answer: "D" },
+      { id: 192, q: "A Room table has 5 rows with floors 1, 2, 2, 3 and 4. After DELETE FROM Room WHERE Floor = 2; how many rows remain?", options: { A: "4", B: "1", C: "3", D: "2" }, answer: "C" },
+      { id: 193, q: "A Student table has these rows (City, Marks): (Lahore, 40), (Multan, 85), (Lahore, 90), (Karachi, 50). How many rows does WHERE City = 'Lahore' OR City = 'Karachi' AND Marks > 70 return?", options: { A: "2", B: "1", C: "0", D: "3" }, answer: "A" },
+      { id: 194, q: "The Quantity column of the OrderItem table contains 2, 5, 1, 4 and 3. What does SELECT SUM(Quantity) FROM OrderItem WHERE Quantity > 2; return?", options: { A: "3", B: "14", C: "15", D: "12" }, answer: "D" },
+      { id: 195, q: "Student has these rows (Section, Score): (A, 80), (A, 90), (B, 60), (B, 80), (B, NULL). In the result of SELECT Section, AVG(Score) FROM Student GROUP BY Section; what is the average for B?", options: { A: "70", B: "46.67", C: "85", D: "NULL" }, answer: "A" },
+      { id: 196, q: "The Marks column of the Student table contains 45, 78, 82, 50 and 90. What does SELECT SUM(Marks) FROM Student WHERE Marks >= 78; return?", options: { A: "95", B: "3", C: "250", D: "345" }, answer: "C" },
+      { id: 197, q: "A Ticket table has these rows (Class, Fare): (Economy, 2000), (Business, 8000), (Economy, 3500), (First, 12000). How many rows does WHERE Class = 'Economy' OR Class = 'First' AND Fare < 5000 return?", options: { A: "2", B: "1", C: "3", D: "0" }, answer: "A" },
+      { id: 198, q: "The Bonus column of Staff contains 500, NULL, 1000, NULL and 1500. What does SELECT COUNT(Bonus) FROM Staff; return?", options: { A: "2", B: "3", C: "NULL", D: "5" }, answer: "B" },
+      { id: 199, q: "Room Capacity values are 4, 2, 8 and 6. What does SELECT Capacity FROM Room ORDER BY Capacity LIMIT 2; return (MySQL)?", options: { A: "8 and 6", B: "4 and 2", C: "2 and 8", D: "2 and 4" }, answer: "D" },
+      { id: 200, q: "City CityName values are 'Lahore', 'Kasur', 'Multan', 'Quetta' and 'Sialkot'. How many rows does SELECT CityName FROM City WHERE CityName LIKE '______'; return?", options: { A: "4", B: "5", C: "2", D: "3" }, answer: "D" },
+      { id: 201, q: "Product has these rows (Category, Rating): (Books, 4), (Books, 5), (Toys, 2), (Toys, 4), (Toys, NULL). In the result of SELECT Category, AVG(Rating) FROM Product GROUP BY Category; what is the average for Toys?", options: { A: "NULL", B: "3", C: "2", D: "4.5" }, answer: "B" },
+      { id: 202, q: "Flight Fare values are 25000, 18000, 32000 and 21000. What does SELECT Fare FROM Flight ORDER BY Fare DESC LIMIT 1; return (MySQL)?", options: { A: "32000", B: "21000", C: "25000", D: "18000" }, answer: "A" },
+      { id: 203, q: "A table is created as Shipment(ShipID INT PRIMARY KEY, City VARCHAR(25) NOT NULL, Weight INT CHECK (Weight > 0 AND Weight <= 50)). Which insert fails?", options: { A: "INSERT INTO Shipment VALUES (1, 'Lahore', 1);", B: "INSERT INTO Shipment VALUES (2, 'Karachi', 50);", C: "INSERT INTO Shipment VALUES (4, 'Peshawar', 55);", D: "INSERT INTO Shipment VALUES (3, 'Quetta', 25);" }, answer: "C" },
+      { id: 204, q: "In an ER diagram, what does a dashed oval represent?", options: { A: "A multivalued attribute", B: "A composite attribute", C: "A derived attribute (e.g., Age calculated from DateOfBirth)", D: "A foreign key" }, answer: "C" },
+      { id: 205, q: "The Order table has these rows (City, Total): (Lahore, 300), (Lahore, 200), (Karachi, 600), (Multan, 100), (Multan, 150). Which groups does SELECT City FROM Order GROUP BY City HAVING COUNT(*) = 1; return?", options: { A: "Multan only", B: "Karachi only", C: "Lahore and Multan", D: "Lahore only" }, answer: "B" },
+      { id: 206, q: "The Charges column of the Parcel table contains 150, 200, 100, 250 and 300. What does SELECT SUM(Charges) FROM Parcel WHERE Charges <= 200; return?", options: { A: "450", B: "1000", C: "3", D: "550" }, answer: "A" },
+      { id: 207, q: "When a FOREIGN KEY references another table, what kind of key must the referenced column(s) in the parent table be?", options: { A: "A CHECK constraint column", B: "Any unindexed VARCHAR column", C: "A PRIMARY KEY or UNIQUE key", D: "A DEFAULT column" }, answer: "C" },
+      { id: 208, q: "Teacher has IDs (1, 2, 3) and Course has TeacherID values (1, 3). How many rows does Teacher LEFT JOIN Course ON Teacher.ID = Course.TeacherID return?", options: { A: "5", B: "2", C: "6", D: "3" }, answer: "D" },
+      { id: 209, q: "Ticket Price values are 1500, 900, 2200 and 1200. What does SELECT Price FROM Ticket ORDER BY Price LIMIT 2; return (MySQL)?", options: { A: "900 and 1200", B: "900 and 2200", C: "2200 and 1500", D: "1500 and 900" }, answer: "A" },
+      { id: 210, q: "What does First Normal Form (1NF) require?", options: { A: "All attribute values must be atomic (no repeating groups or multivalued cells)", B: "Every determinant is a candidate key", C: "The table must have at least two foreign keys", D: "No transitive dependencies exist" }, answer: "A" },
+      { id: 211, q: "The Fare column of Ticket has the values 400, 600 and 800. After running UPDATE Ticket SET Fare = Fare + 100 WHERE Fare >= 600; what does SELECT SUM(Fare) FROM Ticket; return?", options: { A: "1800", B: "1900", C: "2000", D: "2100" }, answer: "C" },
+      { id: 212, q: "Table P has IDs (1, 2) and Table Q has IDs (3, 4). How many rows does SELECT * FROM P INNER JOIN Q ON P.ID = Q.ID; return?", options: { A: "2", B: "4", C: "0", D: "1" }, answer: "C" },
+      { id: 213, q: "The Stock column of Store has the values 0, 0, 5 and 10. After running UPDATE Store SET Stock = 4 WHERE Stock = 0; what does SELECT SUM(Stock) FROM Store; return?", options: { A: "15", B: "27", C: "23", D: "19" }, answer: "C" },
+      { id: 214, q: "A Car table has these rows (Brand, Year): (Honda, 2016), (Toyota, 2022), (Honda, 2021), (Suzuki, 2015). How many rows does WHERE Brand = 'Honda' OR Brand = 'Suzuki' AND Year > 2018 return?", options: { A: "3", B: "1", C: "0", D: "2" }, answer: "D" },
+      { id: 215, q: "The Delivery table has these rows (Zone, Parcels): (Z1, 10), (Z1, 15), (Z2, 30), (Z3, 5), (Z3, 10). Which groups does SELECT Zone FROM Delivery GROUP BY Zone HAVING SUM(Parcels) >= 25; return?", options: { A: "Z1, Z2 and Z3", B: "Z2 only", C: "Z1 and Z2", D: "Z1 only" }, answer: "C" },
+      { id: 216, q: "The Qty column of Item has the values 4, 8, 2 and 10. After running UPDATE Item SET Qty = Qty + 3 WHERE Qty < 5; what does SELECT SUM(Qty) FROM Item; return?", options: { A: "24", B: "27", C: "30", D: "36" }, answer: "C" },
+      { id: 217, q: "Table A has 3 rows with IDs (1, 2, 3) and Table B has 3 rows with IDs (2, 3, 4). How many rows does SELECT * FROM A INNER JOIN B ON A.ID = B.ID; return?", options: { A: "3", B: "4", C: "2", D: "9" }, answer: "C" },
+      { id: 218, q: "Enrollment.StudentID is a foreign key that references Student.StudentID. Which table must be created first?", options: { A: "Both tables must be created in a single CREATE statement", B: "The creation order does not matter", C: "Enrollment", D: "Student" }, answer: "D" },
+      { id: 219, q: "The Size column of Batch has the values 20, 30, 40 and 50. How many rows match WHERE Size BETWEEN 30 AND 30?", options: { A: "2", B: "4", C: "0", D: "1" }, answer: "D" },
+      { id: 220, q: "The SeatNo column of Ticket has the values 10, 11, 12, 13, 14 and 15. How many rows match WHERE SeatNo NOT BETWEEN 11 AND 14?", options: { A: "2", B: "4", C: "3", D: "0" }, answer: "A" },
+      { id: 221, q: "Enrollment.CourseID references Course.CourseID with default RESTRICT/NO ACTION rule. If Course 101 has enrolled students, what happens when you run DELETE FROM Course WHERE CourseID = 101;?", options: { A: "All students in Enrollment are promoted", B: "The Course table is dropped automatically", C: "The delete fails due to foreign key constraint violation", D: "Only the Course row is deleted and Enrollment keeps CourseID 101" }, answer: "C" },
+      { id: 222, q: "The Fine table has these rows (DriverID, Rupees): (DR1, 500), (DR1, 1000), (DR2, 2000), (DR3, 300), (DR3, 200). Which groups does SELECT DriverID FROM Fine GROUP BY DriverID HAVING SUM(Rupees) >= 1500; return?", options: { A: "DR1 and DR2", B: "DR1, DR2 and DR3", C: "DR2 only", D: "DR1 only" }, answer: "A" },
+      { id: 223, q: "A Course table has 5 rows with credits 1, 2, 3, 4 and 4. After DELETE FROM Course WHERE Credits <= 2; how many rows remain?", options: { A: "1", B: "3", C: "4", D: "2" }, answer: "B" },
+      { id: 224, q: "The Marks column of Student has the values 45, 48, 70 and 80. After running UPDATE Student SET Marks = 50 WHERE Marks < 50; what does SELECT SUM(Marks) FROM Student; return?", options: { A: "248", B: "243", C: "200", D: "250" }, answer: "D" },
+      { id: 225, q: "Table X has 5 rows and Table Y has 4 rows. If you write SELECT * FROM X, Y; without a WHERE clause, how many rows are produced?", options: { A: "20", B: "5", C: "4", D: "9" }, answer: "A" },
+      { id: 226, q: "The Discount column of Cart has the values 5, 15 and 25. After running UPDATE Cart SET Discount = 10 WHERE Discount < 10; what does SELECT SUM(Discount) FROM Cart; return?", options: { A: "55", B: "50", C: "40", D: "45" }, answer: "B" },
+      { id: 227, q: "A table is created as Movie(MovieID INT PRIMARY KEY, Title VARCHAR(40) NOT NULL, Rating INT CHECK (Rating BETWEEN 1 AND 10)). Which insert fails?", options: { A: "INSERT INTO Movie VALUES (4, 'Matrix', 10);", B: "INSERT INTO Movie VALUES (3, 'Unknown', 0);", C: "INSERT INTO Movie VALUES (1, 'Inception', 9);", D: "INSERT INTO Movie VALUES (2, 'Avatar', 8);" }, answer: "B" },
+      { id: 228, q: "A Ticket table has these rows (Class, Fare): (Economy, 2000), (Business, 8000), (Economy, 3500), (First, 12000). How many rows does WHERE (Class = 'Economy' OR Class = 'First') AND Fare < 5000 return?", options: { A: "1", B: "3", C: "2", D: "4" }, answer: "C" },
+      { id: 229, q: "The Coins column of Wallet has the values 50, 100 and 150. After running UPDATE Wallet SET Coins = Coins + 25 WHERE Coins != 100; what does SELECT SUM(Coins) FROM Wallet; return?", options: { A: "325", B: "375", C: "300", D: "350" }, answer: "D" },
+      { id: 230, q: "The Fee column of Parcel has the values 100, 150 and 200. After running UPDATE Parcel SET Fee = Fee + 50 WHERE Fee > 100; what does SELECT SUM(Fee) FROM Parcel; return?", options: { A: "600", B: "550", C: "500", D: "450" }, answer: "B" },
+      { id: 231, q: "The Rate column of Loan has the values 8, 10, 12 and 14. After running UPDATE Loan SET Rate = Rate - 2 WHERE Rate > 10; what does SELECT SUM(Rate) FROM Loan; return?", options: { A: "40", B: "42", C: "44", D: "36" }, answer: "A" },
+      { id: 232, q: "A Employee table has these rows (Dept, Salary): (IT, 40000), (HR, 80000), (IT, 70000), (Finance, 90000). How many rows does WHERE Dept = 'IT' OR Dept = 'Finance' AND Salary < 60000 return?", options: { A: "2", B: "1", C: "3", D: "0" }, answer: "A" },
+      { id: 233, q: "Table A has 3 rows with IDs (1, 2, 3) and Table B has 3 rows with IDs (2, 3, 4). How many rows does SELECT * FROM A LEFT JOIN B ON A.ID = B.ID; return?", options: { A: "2", B: "4", C: "3", D: "6" }, answer: "C" },
+      { id: 234, q: "Which join returns all rows from both tables, filling unmatched columns with NULL on either side?", options: { A: "FULL OUTER JOIN", B: "LEFT JOIN", C: "CROSS JOIN", D: "INNER JOIN" }, answer: "A" },
+      { id: 235, q: "Student Marks values are 65, 92, 78 and 88. What does SELECT Marks FROM Student ORDER BY Marks ASC LIMIT 2; return (MySQL)?", options: { A: "65 and 78", B: "65 and 92", C: "92 and 88", D: "78 and 65" }, answer: "A" },
+      { id: 236, q: "The Likes column of Movie has the values 100, 300 and 500. After running UPDATE Movie SET Likes = Likes + 100 WHERE Likes <= 300; what does SELECT SUM(Likes) FROM Movie; return?", options: { A: "1100", B: "900", C: "1200", D: "1000" }, answer: "A" },
+      { id: 237, q: "A Employee table has 6 rows with salaries 20000, 30000, 40000, 50000, 60000 and 70000. After DELETE FROM Employee WHERE Salary < 40000; how many rows remain?", options: { A: "2", B: "4", C: "6", D: "3" }, answer: "B" },
+      { id: 238, q: "A table is created as Flight(FlightID INT PRIMARY KEY, Origin VARCHAR(20) NOT NULL, Seats INT CHECK (Seats BETWEEN 10 AND 300)). Which insert fails?", options: { A: "INSERT INTO Flight VALUES (2, 'KHI', 300);", B: "INSERT INTO Flight VALUES (4, 'MUX', 5);", C: "INSERT INTO Flight VALUES (3, 'ISB', 180);", D: "INSERT INTO Flight VALUES (1, 'LHE', 10);" }, answer: "B" },
+      { id: 239, q: "Which SQL function returns the current date and time in MySQL?", options: { A: "TODAY()", B: "SYSDATE_ONLY()", C: "NOW()", D: "CLOCK()" }, answer: "C" },
+      { id: 240, q: "A Visitor table has 5 rows with hours 1, 2, 3, 4 and 5. After DELETE FROM Visitor WHERE Hours BETWEEN 2 AND 4; how many rows remain?", options: { A: "3", B: "4", C: "2", D: "1" }, answer: "C" },
+      { id: 241, q: "In Relational Algebra, which symbol denotes the Projection operation (choosing columns)?", options: { A: "Pi (π)", B: "Cross (×)", C: "Sigma with subscript (Σ)", D: "Sigma (σ)" }, answer: "A" },
+      { id: 242, q: "The Donation table has these rows (Donor, Cash): (D1, 500), (D1, 500), (D2, 1200), (D3, 300), (D3, 400). Which groups does SELECT Donor FROM Donation GROUP BY Donor HAVING SUM(Cash) >= 1000; return?", options: { A: "D1, D2 and D3", B: "D2 only", C: "D1 and D2", D: "D1 only" }, answer: "C" },
+      { id: 243, q: "The Bonus column of Staff contains 500, NULL, 1000, NULL and 1500. What does SELECT COUNT(*) FROM Staff; return?", options: { A: "2", B: "3", C: "NULL", D: "5" }, answer: "D" },
+      { id: 244, q: "The Pages column of the Book table contains 120, 300, 250, 180 and 400. What does SELECT SUM(Pages) FROM Book WHERE Pages > 200; return?", options: { A: "1250", B: "950", C: "3", D: "300" }, answer: "B" },
+      { id: 245, q: "The Bonus column of the Employee table contains 500, 1000, 1500, 500 and 2000. What does SELECT SUM(Bonus) FROM Employee WHERE Bonus < 1500; return?", options: { A: "2000", B: "5500", C: "3", D: "3500" }, answer: "A" },
+      { id: 246, q: "The Price column of Product has the values 500, 1000, 1500, 2000 and 2500. How many rows match WHERE Price NOT BETWEEN 1000 AND 2000?", options: { A: "2", B: "4", C: "1", D: "3" }, answer: "A" },
+      { id: 247, q: "A table is created as Member(MemberID INT PRIMARY KEY, Phone VARCHAR(15) NOT NULL, Fee INT DEFAULT 500 CHECK (Fee >= 500)). Which insert fails?", options: { A: "INSERT INTO Member VALUES (4, '0300444', 750);", B: "INSERT INTO Member VALUES (3, '0300333', 200);", C: "INSERT INTO Member VALUES (1, '0300111', 500);", D: "INSERT INTO Member VALUES (2, '0300222', 1000);" }, answer: "B" },
+      { id: 248, q: "The Year column of Car has the values 2018, 2019, 2020, 2021 and 2022. How many rows match WHERE Year BETWEEN 2019 AND 2021?", options: { A: "1", B: "3", C: "2", D: "5" }, answer: "B" },
+      { id: 249, q: "Book Title values are 'Intro to SQL', 'SQL Cookbook', 'NoSQL Guide' and 'Python Basics'. How many rows does SELECT Title FROM Book WHERE Title LIKE '%SQL%'; return?", options: { A: "1", B: "2", C: "4", D: "3" }, answer: "D" },
+      { id: 250, q: "The Bonus column of Employee has the values 1000, 2000 and 3000. After running UPDATE Employee SET Bonus = Bonus * 2 WHERE Bonus <= 2000; what does SELECT SUM(Bonus) FROM Employee; return?", options: { A: "7000", B: "12000", C: "9000", D: "6000" }, answer: "C" },
+      { id: 251, q: "Which constraint allows NULL values (in standard SQL/MySQL) while preventing duplicate non-NULL values?", options: { A: "CHECK", B: "PRIMARY KEY", C: "NOT NULL", D: "UNIQUE" }, answer: "D" },
+      { id: 252, q: "Employee.DeptID is a foreign key that references Department.DeptID. If both tables are empty, which row must be inserted first?", options: { A: "Insertion order does not matter", B: "A row in Department", C: "Both rows must be inserted in one VALUES clause", D: "A row in Employee" }, answer: "B" },
+      { id: 253, q: "A table is created as Exam(ExamID INT PRIMARY KEY, Subject VARCHAR(30) NOT NULL, Marks INT CHECK (Marks <= 100)). Which insert fails?", options: { A: "INSERT INTO Exam VALUES (3, 'AI', 75);", B: "INSERT INTO Exam VALUES (4, 'CN', 105);", C: "INSERT INTO Exam VALUES (2, 'OS', 0);", D: "INSERT INTO Exam VALUES (1, 'DB', 100);" }, answer: "B" },
+      { id: 254, q: "In Relational Algebra, which symbol denotes the Selection operation (filtering rows)?", options: { A: "Sigma (σ)", B: "Bowtie (⋈)", C: "Rho (ρ)", D: "Pi (π)" }, answer: "A" },
+      { id: 255, q: "Which SQL keyword tests whether a subquery returns at least one row?", options: { A: "BETWEEN", B: "HAVING", C: "EXISTS", D: "DISTINCT" }, answer: "C" },
+      { id: 256, q: "In Relational Algebra, which symbol denotes the Rename operation?", options: { A: "Pi (π)", B: "Sigma (σ)", C: "Union (∪)", D: "Rho (ρ)" }, answer: "D" },
+      { id: 257, q: "The Order table has these rows (City, Total): (Lahore, 300), (Lahore, 200), (Karachi, 600), (Multan, 100), (Multan, 150). Which groups does SELECT City FROM Order GROUP BY City HAVING SUM(Total) >= 500; return?", options: { A: "Lahore, Karachi and Multan", B: "Lahore only", C: "Karachi only", D: "Lahore and Karachi" }, answer: "D" },
+      { id: 258, q: "Author has IDs (1, 2) and Book has AuthorID values (1, 1, 1). How many rows does Author RIGHT JOIN Book ON Author.ID = Book.AuthorID return?", options: { A: "6", B: "2", C: "3", D: "4" }, answer: "C" },
+      { id: 259, q: "A Item table has 5 rows with quantities 0, 5, 0, 12 and 8. After DELETE FROM Item WHERE Quantity = 0; how many rows remain?", options: { A: "2", B: "4", C: "3", D: "5" }, answer: "C" },
+      { id: 260, q: "The Attempt column of Exam has the values 1, 2, 3 and 4. How many rows match WHERE Attempt NOT IN (2, 4)?", options: { A: "0", B: "1", C: "3", D: "2" }, answer: "D" },
+      { id: 261, q: "The Attendance table has these rows (EmpID, Days): (E1, 5), (E1, 5), (E2, 4), (E3, 6), (E3, 5). Which groups does SELECT EmpID FROM Attendance GROUP BY EmpID HAVING SUM(Days) > 9; return?", options: { A: "E1 and E3", B: "E3 only", C: "E1, E2 and E3", D: "E1 only" }, answer: "A" },
+      { id: 262, q: "Course Fee values are 12000, 8000, 15000 and 10000. What does SELECT Fee FROM Course ORDER BY Fee DESC LIMIT 2; return (MySQL)?", options: { A: "8000 and 15000", B: "8000 and 10000", C: "12000 and 15000", D: "15000 and 12000" }, answer: "D" },
+      { id: 263, q: "A Account table has 6 rows with balances -50, 0, 100, 200, -10 and 500. After DELETE FROM Account WHERE Balance <= 0; how many rows remain?", options: { A: "4", B: "3", C: "1", D: "2" }, answer: "B" },
+      { id: 264, q: "Subject Name values are 'Calculus I', 'Calculus II', 'Algebra' and 'Physics I'. How many rows does SELECT Name FROM Subject WHERE Name LIKE '%I'; return?", options: { A: "4", B: "1", C: "3", D: "2" }, answer: "C" },
+      { id: 265, q: "A Member table has 6 rows with ages 15, 18, 21, 25, 30 and 35. After DELETE FROM Member WHERE Age < 18 OR Age > 30; how many rows remain?", options: { A: "5", B: "4", C: "2", D: "3" }, answer: "B" },
+      { id: 266, q: "Customer has IDs (1, 2) and Orders has CustomerID values (1, 1, 2). How many rows does SELECT * FROM Customer INNER JOIN Orders ON Customer.ID = Orders.CustomerID; return?", options: { A: "5", B: "3", C: "6", D: "2" }, answer: "B" },
+      { id: 267, q: "Can a table have more than one FOREIGN KEY constraint referencing different parent tables?", options: { A: "No, a table can have at most one foreign key", B: "Only if it has no primary key", C: "Only in views, not base tables", D: "Yes, a table can have multiple foreign keys" }, answer: "D" },
+      { id: 268, q: "What is an INDEX in a relational database primarily used for?", options: { A: "To compress database backups into ZIP files", B: "To speed up data retrieval (SELECT queries) on indexed columns", C: "To enforce NOT NULL constraints automatically", D: "To prevent users from running UPDATE queries" }, answer: "B" },
+      { id: 269, q: "The Points column of Member has the values 10, 20, 30 and 40. After running UPDATE Member SET Points = Points + 5 WHERE Points >= 30; what does SELECT SUM(Points) FROM Member; return?", options: { A: "105", B: "110", C: "120", D: "100" }, answer: "B" },
+      { id: 270, q: "The Trip table has these rows (BusNo, Passengers): (B1, 30), (B1, 25), (B2, 40), (B3, 20), (B3, 35). Which groups does SELECT BusNo FROM Trip GROUP BY BusNo HAVING SUM(Passengers) >= 55; return?", options: { A: "B1, B2 and B3", B: "B1 only", C: "B1 and B3", D: "B3 only" }, answer: "C" },
+      { id: 271, q: "What is the primary purpose of a FOREIGN KEY constraint in a relational database?", options: { A: "To enforce referential integrity between child and parent tables", B: "To automatically sort rows in ascending order", C: "To encrypt sensitive text columns", D: "To prevent duplicate values in the child table" }, answer: "A" },
+      { id: 272, q: "Country Name values are 'Pakistan', 'Poland', 'Iran', 'Oman' and 'Japan'. How many rows does SELECT Name FROM Country WHERE Name LIKE '____'; return?", options: { A: "1", B: "2", C: "3", D: "5" }, answer: "B" },
+      { id: 273, q: "The Pay column of SalaryTable has the values 20, 30 and 40. After running UPDATE SalaryTable SET Pay = Pay + 10; what does SELECT SUM(Pay) FROM SalaryTable; return?", options: { A: "120", B: "110", C: "90", D: "100" }, answer: "A" },
+      { id: 274, q: "A designer wants the BloodGroup column to accept only 'A', 'B', 'AB' or 'O'. Which column definition is correct?", options: { A: "BloodGroup VARCHAR(2) CHECK (BloodGroup = 'A', 'B', 'AB', 'O')", B: "BloodGroup VARCHAR(2) UNIQUE ('A', 'B', 'AB', 'O')", C: "BloodGroup VARCHAR(2) DEFAULT ('A', 'B', 'AB', 'O')", D: "BloodGroup VARCHAR(2) CHECK (BloodGroup IN ('A', 'B', 'AB', 'O'))" }, answer: "D" },
+      { id: 275, q: "What is the main difference between UNION and UNION ALL?", options: { A: "UNION ALL removes duplicate rows, whereas UNION keeps all duplicates", B: "UNION removes duplicate rows, whereas UNION ALL keeps all duplicates", C: "UNION sorts descending, whereas UNION ALL sorts ascending", D: "UNION works only on numbers, whereas UNION ALL works on text" }, answer: "B" },
+      { id: 276, q: "Which column is placed on the 'many' side of a 1:N relationship in a relational schema?", options: { A: "The foreign key referencing the 'one' side's primary key", B: "No key is needed", C: "A duplicate copy of all columns from the 'one' side", D: "A primary key referencing the 'many' side" }, answer: "A" },
+      { id: 277, q: "A table is created as LibraryCard(CardID INT PRIMARY KEY, StudentID INT NOT NULL UNIQUE, MaxBooks INT CHECK (MaxBooks <= 5)). Which insert fails?", options: { A: "INSERT INTO LibraryCard VALUES (3, 1003, 1);", B: "INSERT INTO LibraryCard VALUES (4, 1004, 6);", C: "INSERT INTO LibraryCard VALUES (2, 1002, 3);", D: "INSERT INTO LibraryCard VALUES (1, 1001, 5);" }, answer: "B" },
+      { id: 278, q: "What is an attribute made up of smaller sub-parts (e.g., FullName split into FirstName and LastName) called?", options: { A: "Composite attribute", B: "Key attribute", C: "Derived attribute", D: "Multivalued attribute" }, answer: "A" },
+      { id: 279, q: "Doctor has these rows (Ward, Patients): (ICU, 10), (ICU, 20), (OPD, 30), (OPD, NULL). In the result of SELECT Ward, AVG(Patients) FROM Doctor GROUP BY Ward; what is the average for OPD?", options: { A: "20", B: "30", C: "15", D: "NULL" }, answer: "B" },
+      { id: 280, q: "Member Name values are 'Ayesha', 'Amna', 'Fatima' and 'Zainab'. How many rows does SELECT Name FROM Member WHERE Name NOT LIKE 'A%'; return?", options: { A: "1", B: "3", C: "2", D: "4" }, answer: "C" },
+      { id: 281, q: "Which SQL command removes previously granted privileges from a database user?", options: { A: "REVOKE", B: "DELETE", C: "GRANT", D: "ROLLBACK" }, answer: "A" },
+      { id: 282, q: "Which operator should be used with a subquery that returns MULTIPLE rows (e.g., all CustomerIDs from Lahore)?", options: { A: "= (equals sign alone)", B: "IS NULL", C: "IN (or ANY / ALL)", D: "LIKE" }, answer: "C" },
+      { id: 283, q: "Table A has 3 rows with IDs (1, 2, 3) and Table B has 2 rows with IDs (3, 4). How many rows does SELECT * FROM A RIGHT JOIN B ON A.ID = B.ID; return?", options: { A: "2", B: "3", C: "1", D: "6" }, answer: "A" },
+      { id: 284, q: "What is a SQL VIEW?", options: { A: "A constraint that validates foreign keys", B: "A temporary variable inside a WHERE clause", C: "A virtual table based on the result set of a stored SELECT query", D: "A physical backup copy of a database on another server" }, answer: "C" },
+      { id: 285, q: "A designer wants the Role column to accept only 'Admin', 'Editor' or 'Viewer'. Which column definition is correct?", options: { A: "Role VARCHAR(10) CHECK (Role IN ('Admin', 'Editor', 'Viewer'))", B: "Role VARCHAR(10) NOT NULL ('Admin', 'Editor', 'Viewer')", C: "Role VARCHAR(10) DEFAULT ('Admin', 'Editor', 'Viewer')", D: "Role VARCHAR(10) CHECK (Role = 'Admin', 'Editor', 'Viewer')" }, answer: "A" },
+      { id: 286, q: "Which SQL command undoes uncommitted changes made during the current transaction?", options: { A: "TRUNCATE", B: "COMMIT", C: "DROP", D: "ROLLBACK" }, answer: "D" },
+      { id: 287, q: "The Grace column of Exam has the values 38, 39, 45 and 60. After running UPDATE Exam SET Grace = 40 WHERE Grace BETWEEN 35 AND 39; what does SELECT SUM(Grace) FROM Exam; return?", options: { A: "182", B: "190", C: "180", D: "185" }, answer: "D" },
+      { id: 288, q: "Student has 4 rows and Enrollment has 0 rows. How many rows does SELECT * FROM Student LEFT JOIN Enrollment ON Student.ID = Enrollment.StudentID; return?", options: { A: "NULL", B: "0", C: "1", D: "4" }, answer: "D" },
+      { id: 289, q: "Orders has CustID values (1, 2). Customer has IDs (1, 2, 3). How many rows does SELECT * FROM Customer c WHERE NOT EXISTS (SELECT 1 FROM Orders o WHERE o.CustID = c.ID); return?", options: { A: "3", B: "1", C: "0", D: "2" }, answer: "B" },
+      { id: 290, q: "In SQL, what is the result of the expression 10 + NULL?", options: { A: "0", B: "10", C: "NULL", D: "An error" }, answer: "C" },
+      { id: 291, q: "How many PRIMARY KEY constraints can a single table have?", options: { A: "At most one (though it may consist of multiple columns as a composite key)", B: "At least two in every normalized table", C: "None if the table has a foreign key", D: "As many separate primary keys as there are columns" }, answer: "A" },
+      { id: 292, q: "A table is created as Sensor(SensorID INT PRIMARY KEY, Zone VARCHAR(10) NOT NULL, Temp INT CHECK (Temp BETWEEN -10 AND 60)). Which insert fails?", options: { A: "INSERT INTO Sensor VALUES (4, 'Z4', 65);", B: "INSERT INTO Sensor VALUES (1, 'Z1', -10);", C: "INSERT INTO Sensor VALUES (3, 'Z3', 25);", D: "INSERT INTO Sensor VALUES (2, 'Z2', 60);" }, answer: "A" },
+      { id: 293, q: "Flight FlightNo values are 'PK-301', 'PK-402', 'EK-612' and 'PK-785'. How many rows does SELECT FlightNo FROM Flight WHERE FlightNo LIKE 'PK%'; return?", options: { A: "2", B: "1", C: "4", D: "3" }, answer: "D" },
+      { id: 294, q: "Which of the following is a DDL (Data Definition Language) command?", options: { A: "UPDATE", B: "INSERT INTO", C: "DELETE", D: "ALTER TABLE" }, answer: "D" },
+      { id: 295, q: "A table is created as HotelRoom(RoomNo INT PRIMARY KEY, Type VARCHAR(20) NOT NULL, Beds INT CHECK (Beds IN (1, 2, 3))). Which insert fails?", options: { A: "INSERT INTO HotelRoom VALUES (101, 'Single', 1);", B: "INSERT INTO HotelRoom VALUES (102, 'Double', 2);", C: "INSERT INTO HotelRoom VALUES (104, 'Dorm', 4);", D: "INSERT INTO HotelRoom VALUES (103, 'Family', 3);" }, answer: "C" },
+      { id: 296, q: "Student Name values are 'Ali Raza', 'Alina Khan', 'Bilal Ahmed' and 'Usman Ali'. How many rows does SELECT Name FROM Student WHERE Name LIKE '%Ali%'; return?", options: { A: "1", B: "4", C: "3", D: "2" }, answer: "C" },
+      { id: 297, q: "A table is created as Ticket(TicketID INT PRIMARY KEY, Passenger VARCHAR(30) NOT NULL, Age INT CHECK (Age >= 0)). Which insert fails?", options: { A: "INSERT INTO Ticket VALUES (4, 'Test', -1);", B: "INSERT INTO Ticket VALUES (3, 'Senior', 70);", C: "INSERT INTO Ticket VALUES (1, 'Baby', 0);", D: "INSERT INTO Ticket VALUES (2, 'Adult', 35);" }, answer: "A" },
+      { id: 298, q: "Parent table Category has CatID values 1 and 2. Product.CatID references Category.CatID. Which insert into Product succeeds?", options: { A: "INSERT INTO Product VALUES (102, 'Mouse', 3);", B: "INSERT INTO Product VALUES (101, 'Laptop', 2);", C: "INSERT INTO Product VALUES (104, 'Chair', 99);", D: "INSERT INTO Product VALUES (103, 'Desk', 0);" }, answer: "B" },
+      { id: 299, q: "A Order table has these rows (Status, Amount): (Pending, 100), (Paid, 500), (Pending, 800), (Cancelled, 200). How many rows does WHERE (Status = 'Pending' OR Status = 'Cancelled') AND Amount > 400 return?", options: { A: "0", B: "2", C: "1", D: "3" }, answer: "C" },
+      { id: 300, q: "A Flight table has these rows (Airline, Seats): (PIA, 5), (Emirates, 20), (PIA, 30), (Airblue, 10). How many rows does WHERE (Airline = 'PIA' OR Airline = 'Airblue') AND Seats > 15 return?", options: { A: "0", B: "1", C: "2", D: "3" }, answer: "B" }
+    ];
+
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function buildShuffledQuiz() {
+      const shuffledQs = shuffleArray(sourceMCQs);
+      const keys = ['A', 'B', 'C', 'D'];
+      return shuffledQs.map((item, idx) => {
+        const entries = shuffleArray(Object.entries(item.options));
+        const newOptions = {};
+        let newAnswer = 'A';
+        entries.forEach(([oldKey, text], pos) => {
+          const k = keys[pos];
+          newOptions[k] = text;
+          if (oldKey === item.answer) newAnswer = k;
+        });
+        return {
+          id: item.id,
+          demo: Boolean(item.demo),
+          displayNum: idx + 1,
+          q: item.q,
+          options: newOptions,
+          answer: newAnswer
+        };
+      });
+    }
+
+    let quizData = buildShuffledQuiz();
+    const userAnswers = {};
+
+    const quizContainer = document.getElementById('quizContainer');
+    const searchInput = document.getElementById('searchInput');
+    const filterSelect = document.getElementById('filterSelect');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const resetQuizBtn = document.getElementById('resetQuizBtn');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function updateStats() {
+      const entries = Object.values(userAnswers);
+      const attempted = entries.length;
+      const correct = entries.filter(x => x.isCorrect).length;
+      const wrong = attempted - correct;
+      const pct = attempted ? Math.round((correct / attempted) * 100) : 0;
+
+      document.getElementById('statAttempted').textContent = `Attempted: ${attempted} / ${quizData.length}`;
+      document.getElementById('statCorrect').textContent = `Correct: ${correct}`;
+      document.getElementById('statWrong').textContent = `Wrong: ${wrong}`;
+      document.getElementById('statScore').textContent = `Score: ${pct}%`;
+      document.getElementById('progressFill').style.width = `${(attempted / quizData.length) * 100}%`;
+    }
+
+    function renderQuiz() {
+      const query = searchInput.value.trim().toLowerCase();
+      const filter = filterSelect.value;
+
+      quizContainer.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+
+      quizData.forEach(item => {
+        const state = userAnswers[item.id];
+
+        if (filter === 'demo' && !item.demo) return;
+        if (filter === 'unanswered' && state) return;
+        if (filter === 'correct' && (!state || !state.isCorrect)) return;
+        if (filter === 'wrong' && (!state || state.isCorrect)) return;
+
+        if (query) {
+          const haystack = (item.q + ' ' + Object.values(item.options).join(' ')).toLowerCase();
+          if (!haystack.includes(query)) return;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'mcq-card';
+        card.id = 'mcq-' + item.id;
+
+        let statusHtml = '';
+        if (state) {
+          statusHtml = state.isCorrect
+            ? '<span class="q-status ok">✔ Correct!</span>'
+            : `<span class="q-status bad">✘ Wrong (Correct: ${item.answer})</span>`;
+        }
+
+        let optionsHtml = '';
+        ['A', 'B', 'C', 'D'].forEach(key => {
+          let btnClass = 'option-btn';
+          let icon = '';
+          const disabledAttr = state ? 'disabled' : '';
+
+          if (state) {
+            if (key === item.answer) {
+              btnClass += ' correct-choice';
+              icon = '✔';
+            } else if (key === state.selected && !state.isCorrect) {
+              btnClass += ' wrong-choice';
+              icon = '✘';
+            }
+          }
+
+          optionsHtml += `
+            <button type="button" class="${btnClass}" data-id="${item.id}" data-opt="${key}" ${disabledAttr}>
+              <span class="opt-key">${key}</span>
+              <span class="opt-text">${escapeHTML(item.options[key])}</span>
+              <span class="opt-icon">${icon}</span>
+            </button>
+          `;
+        });
+
+        const demoTag = item.demo ? ' • Demo' : '';
+        card.innerHTML = `
+          <div class="mcq-header">
+            <span class="q-badge">Question #${item.displayNum}${demoTag}</span>
+            ${statusHtml}
+          </div>
+          <div class="question-text">${escapeHTML(item.q)}</div>
+          <div class="options-list">${optionsHtml}</div>
+        `;
+
+        fragment.appendChild(card);
+      });
+
+      if (!fragment.childNodes.length) {
+        quizContainer.innerHTML = '<div class="mcq-card" style="text-align:center;color:var(--text-secondary);">No matching MCQs found.</div>';
+      } else {
+        quizContainer.appendChild(fragment);
+      }
+    }
+
+    quizContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.option-btn');
+      if (!btn || btn.disabled) return;
+
+      const id = Number(btn.dataset.id);
+      const selected = btn.dataset.opt;
+      const item = quizData.find(q => q.id === id);
+      if (!item || userAnswers[id]) return;
+
+      const isCorrect = selected === item.answer;
+      userAnswers[id] = { selected, isCorrect };
+
+      const card = document.getElementById('mcq-' + id);
+      const header = card.querySelector('.mcq-header');
+      const existingStatus = header.querySelector('.q-status');
+      if (existingStatus) existingStatus.remove();
+
+      const statusSpan = document.createElement('span');
+      statusSpan.className = 'q-status ' + (isCorrect ? 'ok' : 'bad');
+      statusSpan.textContent = isCorrect ? '✔ Correct!' : `✘ Wrong (Correct: ${item.answer})`;
+      header.appendChild(statusSpan);
+
+      const allBtns = card.querySelectorAll('.option-btn');
+      allBtns.forEach(b => {
+        b.disabled = true;
+        const optKey = b.dataset.opt;
+        const iconEl = b.querySelector('.opt-icon');
+        if (optKey === item.answer) {
+          b.classList.add('correct-choice');
+          iconEl.textContent = '✔';
+        } else if (optKey === selected && !isCorrect) {
+          b.classList.add('wrong-choice');
+          iconEl.textContent = '✘';
+        }
+      });
+
+      updateStats();
+    });
+
+    searchInput.addEventListener('input', renderQuiz);
+    filterSelect.addEventListener('change', renderQuiz);
+
+    function applyTheme(isDark) {
+      document.body.classList.toggle('dark-mode', isDark);
+      darkModeToggle.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem('waleed_quiz_dark_mode', isDark ? '1' : '0');
+    }
+
+    if (localStorage.getItem('waleed_quiz_dark_mode') === '1') {
+      applyTheme(true);
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+      applyTheme(!document.body.classList.contains('dark-mode'));
+    });
+
+    resetQuizBtn.addEventListener('click', () => {
+      if (Object.keys(userAnswers).length > 0) {
+        if (!confirm('Are you sure you want to reset your score and re-shuffle all MCQs & options?')) return;
+      }
+      for (const k in userAnswers) delete userAnswers[k];
+      quizData = buildShuffledQuiz();
+      updateStats();
+      renderQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', () => {
+      scrollTopBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    renderQuiz();
+  </script>
+</body>
+</html>
